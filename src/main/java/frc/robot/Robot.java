@@ -7,10 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -19,12 +17,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
  */
 public class Robot extends TimedRobot
 {
-  // Create four AnalogInput objects to represent the analog encoders
-  private AnalogInput encoder0 = new AnalogInput(0); // Port 0
-  private AnalogInput encoder1 = new AnalogInput(1); // Port 1
-  private AnalogInput encoder2 = new AnalogInput(2); // Port 2
-  private AnalogInput encoder3 = new AnalogInput(3); // Port 3
-
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
@@ -78,26 +70,6 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
-    // Continuously write the encoder values to the SmartDashboard
-    // Convert the raw encoder values to voltage
-    double voltage0 = encoder0.getValue() * (5.0 / 4096.0);
-    double voltage1 = encoder1.getValue() * (5.0 / 4096.0);
-    double voltage2 = encoder2.getValue() * (5.0 / 4096.0);
-    double voltage3 = encoder3.getValue() * (5.0 / 4096.0);
-
-    // Optionally, map voltage to degrees (if that's your desired unit, for example)
-    double degrees0 = voltage0 * 360.0 / 5.0;
-    double degrees1 = voltage1 * 360.0 / 5.0;
-    double degrees2 = voltage2 * 360.0 / 5.0;
-    double degrees3 = voltage3 * 360.0 / 5.0;
-
-    // Display the normalized values (e.g., in degrees) on the SmartDashboard
-    SmartDashboard.putNumber("Encoder 0 (Degrees)", degrees0);
-    SmartDashboard.putNumber("Encoder 1 (Degrees)", degrees1);
-    SmartDashboard.putNumber("Encoder 2 (Degrees)", degrees2);
-    SmartDashboard.putNumber("Encoder 3 (Degrees)", degrees3);
-    
   }
 
   /**
@@ -118,6 +90,7 @@ public class Robot extends TimedRobot
     {
       m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
+      disabledTimer.reset();
     }
   }
 
