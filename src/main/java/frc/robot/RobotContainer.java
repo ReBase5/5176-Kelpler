@@ -195,7 +195,11 @@ public class RobotContainer
       operatorXbox.b().onFalse(setArmPoseLowGoal);
     }
     // Insert controller bindings for coral shooter
+    operatorXbox.a()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
+      operatorXbox.b()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE2, () -> 0, rollerSubsystem));
   }
 
   /**
