@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class testArm extends SubsystemBase {
-  private SparkMax motorA = new SparkMax(12, MotorType.kBrushless);
-  private SparkMax motorB = new SparkMax(0, null);
+  private SparkMax motorA = new SparkMax(33, MotorType.kBrushless);
+  private SparkMax motorB = new SparkMax(44, MotorType.kBrushless);
 
   private SparkClosedLoopController controllerA = motorA.getClosedLoopController();
 
@@ -38,6 +38,7 @@ public class testArm extends SubsystemBase {
     config.closedLoop.pid(0.01, 0, 0.002);
 
     motorA.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    motorB.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
 
