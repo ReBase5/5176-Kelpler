@@ -37,7 +37,7 @@ public class RobotContainer
   //Coral shooting subsystem created
   private final CoralSubsystem coralSubsystem = new CoralSubsystem();
 
-
+  //Coral angle subsystem created
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
@@ -197,10 +197,10 @@ public class RobotContainer
     }
     // Insert controller bindings for coral shooter
     operatorXbox.a()
-        .whileTrue(new CoralCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, coralSubsystem));
+        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE, () -> 0, coralSubsystem));
 
       operatorXbox.b()
-        .whileTrue(new CoralCommand(() -> RollerConstants.ROLLER_EJECT_VALUE2, () -> 0, coralSubsystem));
+        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE2, () -> 0, coralSubsystem));
   }
 
   /**
