@@ -28,9 +28,9 @@ public class SetCoralAngle extends Command {
   }
 
   public void initialize() {
-    arm.setArmPose(setPoint);
+    coral.setCoralAngle(coralAngle);
   }
-
+//*************** */ Made it to here in my progress**********************
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
