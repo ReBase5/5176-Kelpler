@@ -48,4 +48,12 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+
+  public static final class CoralConstants {
+    public static final int CORAL_MOTOR_ID = 8;
+    public static final int CORAL_MOTOR_CURRENT_LIMIT = 60;
+    public static final double CORAL_MOTOR_VOLTAGE_COMP = 10;
+    public static final double CORAL_EJECT_VALUE = 0.44;
+    public static final double CORAL_EJECT_VALUE2 = 0.22;
+  }
 }

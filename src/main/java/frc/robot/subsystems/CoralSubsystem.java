@@ -12,11 +12,11 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Coral extends SubsystemBase {
+public class CoralSubsystem extends SubsystemBase {
   private final SparkMax shooter;
 
-  /** Creates a new Coral. */
-  public Coral() {
+  /** Creates a new CoralSubsystem. */
+  public CoralSubsystem() {
     shooter = new SparkMax(24, MotorType.kBrushless);
 
     // Set can timeout. Because this project only sets parameters once on

@@ -19,9 +19,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.CoralCommand;
 import frc.robot.commands.SetArmPose;
 import frc.robot.subsystems.testArm;
-import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -34,7 +35,7 @@ import swervelib.SwerveInputStream;
 public class RobotContainer
 {
   //Coral shooting subsystem created
-  private final Coral coral = new Coral();
+  private final CoralSubsystem coralSubsystem = new CoralSubsystem();
 
 
 
@@ -196,10 +197,10 @@ public class RobotContainer
     }
     // Insert controller bindings for coral shooter
     operatorXbox.a()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+        .whileTrue(new CoralCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, coralSubsystem));
 
       operatorXbox.b()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE2, () -> 0, rollerSubsystem));
+        .whileTrue(new CoralCommand(() -> RollerConstants.ROLLER_EJECT_VALUE2, () -> 0, coralSubsystem));
   }
 
   /**
