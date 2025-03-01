@@ -7,17 +7,17 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.CoralSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
-  private final Coral coral;
+  private final CoralSubsystem coral;
  /** Creates a new ShooterCommand. */
   
   public ShooterCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, Coral coral) {
+      DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coral) {
     this.forward = forward;
     this.reverse = reverse;
     this.coral = coral;

@@ -16,7 +16,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Coral extends SubsystemBase {
+public class CoralSubsystem extends SubsystemBase {
   private final SparkMax shooter = new SparkMax(24, MotorType.kBrushless);;
   private final SparkMax angleMotor = new SparkMax(24, MotorType.kBrushless);;
  
@@ -25,9 +25,10 @@ public class Coral extends SubsystemBase {
   private double coralAngle = 0;
   private RelativeEncoder angleEncoder = angleMotor.getEncoder();
 
-  /** Creates a new Coral. */
-  public Coral() {
-    
+  /** Creates a new CoralSubsystem. */
+  public CoralSubsystem() {
+    shooter = new SparkMax(24, MotorType.kBrushless);
+
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
