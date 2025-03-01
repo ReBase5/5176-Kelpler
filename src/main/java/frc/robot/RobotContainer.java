@@ -192,7 +192,7 @@ public class RobotContainer
       operatorXbox.y().onTrue(setArmPoseHighGoal);
       operatorXbox.a().onTrue(setArmPoseZero);
       operatorXbox.x().onTrue(setArmPoseMediumGoal);
-      operatorXbox.b().onFalse(setArmPoseLowGoal);
+      operatorXbox.b().onTrue(setArmPoseLowGoal);
     }
     // Insert controller bindings for coral shooter
 
