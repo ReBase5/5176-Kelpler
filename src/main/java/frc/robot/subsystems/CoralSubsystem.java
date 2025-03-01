@@ -27,7 +27,6 @@ public class CoralSubsystem extends SubsystemBase {
 
   /** Creates a new CoralSubsystem. */
   public CoralSubsystem() {
-    shooter = new SparkMax(24, MotorType.kBrushless);
 
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code

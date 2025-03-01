@@ -18,7 +18,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class testArm extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase {
   private SparkMax motorA = new SparkMax(33, MotorType.kBrushless);
   private SparkMax motorB = new SparkMax(44, MotorType.kBrushless);
 
@@ -31,7 +31,7 @@ public class testArm extends SubsystemBase {
   
 
   /** Creates a new testArm. */
-  public testArm() {
+  public ElevatorSubsystem() {
     SparkMaxConfig config = new SparkMaxConfig();
 
     config.idleMode(IdleMode.kBrake);
@@ -43,7 +43,7 @@ public class testArm extends SubsystemBase {
   }
 
 
-  public void setArmPose(double setPoint) {
+  public void setElevatorPose(double setPoint) {
     this.setPoint = setPoint;
     controllerA.setReference(setPoint, SparkBase.ControlType.kPosition);
   }

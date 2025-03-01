@@ -6,29 +6,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 // import frc.robot.subsystems.testArm;
-import frc.robot.subsystems.Coral;
-import frc.robot.subsystems.testArm;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetCoralAngle extends Command {
   /** Creates a new SetCoralAngle. */
-  private Coral coral;
+  private CoralSubsystem coral;
   private double coralAngle;
 
   public SetCoralAngle() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 // not sure if coralSubsystem is how it should be named - it was previously caled armSubystem.
-  public SetCoralAngle(Coral coralSubsystem, double coralAngle) {
+  public SetCoralAngle(CoralSubsystem coralSubsystem, double coralAngle) {
     this.coral = coralSubsystem;
     this.coralAngle = coralAngle;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(coral);
-  }
-
-  public void initialize() {
-    arm.setArmPose(setPoint);
   }
 
   // Called when the command is initially scheduled.

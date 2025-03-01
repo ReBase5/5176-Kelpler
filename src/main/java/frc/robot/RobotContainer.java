@@ -18,10 +18,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CoralCommand;
-import frc.robot.commands.SetArmPose;
-import frc.robot.subsystems.testArm;
+import frc.robot.commands.SetElevatorPose;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -46,7 +47,7 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
 
-  private final testArm armSubsystem = new testArm();
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -101,10 +102,10 @@ public class RobotContainer
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  private final SetArmPose setArmPoseZero = new SetArmPose(armSubsystem, 0);
-  private final SetArmPose setArmPoseHighGoal = new SetArmPose(armSubsystem, 5);
-  private final SetArmPose setArmPoseMediumGoal = new SetArmPose(armSubsystem, 7);
-  private final SetArmPose setArmPoseLowGoal = new SetArmPose(armSubsystem, 10);
+  private final SetElevatorPose setElevatorPoseZero = new SetElevatorPose(elevatorSubsystem, 0);
+  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 5);
+  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 7);
+  private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 10);
   
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -190,17 +191,19 @@ public class RobotContainer
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
 
-      operatorXbox.y().onTrue(setArmPoseHighGoal);
-      operatorXbox.a().onTrue(setArmPoseZero);
-      operatorXbox.x().onTrue(setArmPoseMediumGoal);
-      operatorXbox.b().onTrue(setArmPoseLowGoal);
+      operatorXbox.y().onTrue(setElevatorPoseHighGoal);
+      operatorXbox.a().onTrue(setElevatorPoseZero);
+      operatorXbox.x().onTrue(setElevatorPoseMediumGoal);
+      operatorXbox.b().onTrue(setElevatorPoseLowGoal);
     }
     // Insert controller bindings for coral shooter
     operatorXbox.a()
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE, () -> 0, coralSubsystem));
+        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE, () -> 0, coralSubsystem));
+        .whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE, coralSubsystem));
 
       operatorXbox.b()
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE2, () -> 0, coralSubsystem));
+        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE2, () -> 0, coralSubsystem));
+        .whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE2, coralSubsystem));
   }
 
   /**
