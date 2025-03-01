@@ -13,11 +13,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.SetArmPose;
+import frc.robot.subsystems.testArm;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -37,9 +40,12 @@ public class RobotContainer
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
+  final         CommandXboxController operatorXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
+
+  private final testArm armSubsystem = new testArm();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -91,6 +97,14 @@ public class RobotContainer
                                                                                                                2))
                                                                                .headingWhile(true);
 
+  // The autonomous chooser
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+  private final SetArmPose setArmPoseZero = new SetArmPose(armSubsystem, 0);
+  private final SetArmPose setArmPoseHighGoal = new SetArmPose(armSubsystem, 5);
+  private final SetArmPose setArmPoseMediumGoal = new SetArmPose(armSubsystem, 7);
+  private final SetArmPose setArmPoseLowGoal = new SetArmPose(armSubsystem, 10);
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -174,6 +188,11 @@ public class RobotContainer
       driverXbox.back().whileTrue(Commands.none());
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
+
+      operatorXbox.y().onTrue(setArmPoseHighGoal);
+      operatorXbox.a().onTrue(setArmPoseZero);
+      operatorXbox.x().onTrue(setArmPoseMediumGoal);
+      operatorXbox.b().onFalse(setArmPoseLowGoal);
     }
     // Insert controller bindings for coral shooter
 
