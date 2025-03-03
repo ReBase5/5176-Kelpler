@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralSubsystem extends SubsystemBase {
   private final SparkMax shooter = new SparkMax(24, MotorType.kBrushless);;
-  private final SparkMax angleMotor = new SparkMax(24, MotorType.kBrushless);;
+  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);;
  
   private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 

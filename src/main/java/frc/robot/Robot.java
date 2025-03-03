@@ -4,11 +4,20 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import static edu.wpi.first.units.Units.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -24,6 +33,15 @@ public class Robot extends TimedRobot
   private RobotContainer m_robotContainer;
 
   private Timer disabledTimer;
+
+  private final TalonFX m_fx = new TalonFX(11, "rio");
+
+  private final XboxController m_joystick = new XboxController(1);
+
+  /* Start at position 0, use slot 0 */
+  private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
+
+  private final NeutralOut m_brake = new NeutralOut();
 
   public Robot()
   {
@@ -53,6 +71,34 @@ public class Robot extends TimedRobot
     {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
+
+    TalonFXConfiguration configs = new TalonFXConfiguration();
+    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
+    configs.Slot0.kI = 0; // No output for integrated error
+    configs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
+    // Peak output of 8 V
+    configs.Voltage.withPeakForwardVoltage(Volts.of(8))
+      .withPeakReverseVoltage(Volts.of(-8));
+
+    configs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
+    configs.Slot1.kI = 0; // No output for integrated error
+    configs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
+    // Peak output of 120 A
+    configs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
+      .withPeakReverseTorqueCurrent(Amps.of(-120));
+
+    /* Retry config apply up to 5 times, report if failure */
+    StatusCode status = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status = m_fx.getConfigurator().apply(configs);
+      if (status.isOK()) break;
+    }
+    if (!status.isOK()) {
+      System.out.println("Could not apply configs, error code: " + status.toString());
+    }
+
+    /* Make sure we start at 0 */
+    m_fx.setPosition(0);
   }
 
   /**
@@ -131,6 +177,19 @@ public class Robot extends TimedRobot
     } else
     {
       CommandScheduler.getInstance().cancelAll();
+    }
+
+    double desiredRotations = m_joystick.getRightY() * 10; // Go for plus/minus 10 rotations
+    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
+      desiredRotations = 0;
+    }
+
+    if (m_joystick.getLeftBumperButton()) {
+      /* Use position voltage */
+      m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
+    } else {
+      /* Disable the motor instead */
+      m_fx.setControl(m_brake);
     }
   }
 
