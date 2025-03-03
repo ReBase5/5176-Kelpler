@@ -22,6 +22,7 @@ import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CoralCommand;
 import frc.robot.commands.SetElevatorPose;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -198,12 +199,14 @@ public class RobotContainer
     }
     // Insert controller bindings for coral shooter
     operatorXbox.a()
-        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE, () -> 0, coralSubsystem));
-        .whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE, coralSubsystem));
+      //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
+        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
+        //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_FAST, coralSubsystem));
 
-      operatorXbox.b()
-        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE2, () -> 0, coralSubsystem));
-        .whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE2, coralSubsystem));
+    operatorXbox.b()
+      //.whileTrue(coralSubsystem.runRoller(0, CoralConstants.CORAL_EJECT_VALUE_FAST));
+        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
+        //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_SLOW, coralSubsystem));
   }
 
   /**
