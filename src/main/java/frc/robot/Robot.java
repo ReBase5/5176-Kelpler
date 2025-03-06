@@ -34,9 +34,9 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-  private final TalonFX m_fx = new TalonFX(11, "rio");
+  private final TalonFX m_fx = new TalonFX(17, "rio");
 
-  private final XboxController m_joystick = new XboxController(1);
+  private final XboxController operatorXbox = new XboxController(1);
 
   /* Start at position 0, use slot 0 */
   private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
@@ -179,12 +179,12 @@ public class Robot extends TimedRobot
       CommandScheduler.getInstance().cancelAll();
     }
 
-    double desiredRotations = m_joystick.getRightY() * 10; // Go for plus/minus 10 rotations
+    double desiredRotations = operatorXbox.getRightY() * 10; // Go for plus/minus 10 rotations
     if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
       desiredRotations = 0;
     }
 
-    if (m_joystick.getLeftBumperButton()) {
+    if (operatorXbox.getLeftBumperButton()) {
       /* Use position voltage */
       m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
     } else {
