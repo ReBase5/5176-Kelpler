@@ -19,23 +19,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase {
-  private SparkMax motorA = new SparkMax(33, MotorType.kBrushless);
-  private SparkMax motorB = new SparkMax(44, MotorType.kBrushless);
+  private SparkMax motorA = new SparkMax(40, MotorType.kBrushless); //left motor
+  // private SparkMax motorA = new SparkMax(33, MotorType.kBrushless);
+  private SparkMax motorB = new SparkMax(42, MotorType.kBrushless); //right motor
+  // private SparkMax motorB = new SparkMax(44, MotorType.kBrushless);
 
   private SparkClosedLoopController controllerA = motorA.getClosedLoopController();
+  private SparkClosedLoopController controllerB = motorB.getClosedLoopController();
 
   private double setPoint = 0;
 
-  private RelativeEncoder encoderA = motorA.getEncoder
-  ();
+  private RelativeEncoder encoderA = motorA.getEncoder();
+  private RelativeEncoder encoderB = motorB.getEncoder();
   
 
   /** Creates a new testArm. */
   public ElevatorSubsystem() {
     SparkMaxConfig config = new SparkMaxConfig();
 
-    config.idleMode(IdleMode.kBrake);
-    config.closedLoop.pid(0.01, 0, 0.002);
+    config.idleMode(IdleMode.kCoast);
+    config.closedLoop.pid(0.3, 0, 0.08);
+    config.inverted(true);
 
     motorA.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     motorB.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -46,6 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setElevatorPose(double setPoint) {
     this.setPoint = setPoint;
     controllerA.setReference(setPoint, SparkBase.ControlType.kPosition);
+    controllerB.setReference(setPoint, SparkBase.ControlType.kPosition);
   }
 
   public boolean isAtSetPoint() {
