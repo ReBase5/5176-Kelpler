@@ -200,12 +200,12 @@ public class RobotContainer
     // Insert controller bindings for coral shooter
     operatorXbox.a()
       //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
+      .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
         //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_FAST, coralSubsystem));
 
     operatorXbox.b()
       //.whileTrue(coralSubsystem.runRoller(0, CoralConstants.CORAL_EJECT_VALUE_FAST));
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
+      .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
         //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_SLOW, coralSubsystem));
   }
 

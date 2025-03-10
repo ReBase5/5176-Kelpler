@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralSubsystem extends SubsystemBase {
   private final SparkMax shooter = new SparkMax(24, MotorType.kBrushless);;
-  private final SparkMax angleMotor = new SparkMax(24, MotorType.kBrushless);;
+  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);;
  
   private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 
