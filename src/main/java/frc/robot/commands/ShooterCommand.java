@@ -13,16 +13,16 @@ import frc.robot.subsystems.CoralSubsystem;
 public class ShooterCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
-  private final CoralSubsystem coral;
+  private final CoralSubsystem coralSub;
  /** Creates a new ShooterCommand. */
   
   public ShooterCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coral) {
+      DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
     this.forward = forward;
     this.reverse = reverse;
-    this.coral = coral;
+    this.coralSub = coralSub;
 
-    addRequirements(this.coral);
+    addRequirements(this.coralSub);
   }
 
 
@@ -34,7 +34,7 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
   // Run the roller motor at the desired speed
-  coral.runRoller(forward.getAsDouble(), reverse.getAsDouble());
+  coralSub.forward.getAsDouble(), reverse.getAsDouble());
   }
   
   // Called once the command ends or is interrupted.
