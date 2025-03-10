@@ -34,7 +34,8 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-  private final TalonFX m_fx = new TalonFX(17, "rio");
+  private final TalonFX algaeAngle = new TalonFX(17, "rio");
+  private final TalonFX climber = new TalonFX(45,"rio");
 
   private final XboxController operatorXbox = new XboxController(1);
 
@@ -90,7 +91,7 @@ public class Robot extends TimedRobot
     /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
-      status = m_fx.getConfigurator().apply(configs);
+      status = algaeAngle.getConfigurator().apply(configs);
       if (status.isOK()) break;
     }
     if (!status.isOK()) {
@@ -98,7 +99,7 @@ public class Robot extends TimedRobot
     }
 
     /* Make sure we start at 0 */
-    m_fx.setPosition(0);
+    algaeAngle.setPosition(0);
   }
 
   /**
@@ -186,10 +187,10 @@ public class Robot extends TimedRobot
 
     if (operatorXbox.getLeftBumperButton()) {
       /* Use position voltage */
-      m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
+      algaeAngle.setControl(m_positionVoltage.withPosition(desiredRotations));
     } else {
       /* Disable the motor instead */
-      m_fx.setControl(m_brake);
+      algaeAngle.setControl(m_brake);
     }
   }
 

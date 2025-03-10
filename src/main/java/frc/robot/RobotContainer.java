@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.CoralCommand;
+
 import frc.robot.commands.SetElevatorPose;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -107,7 +107,7 @@ public class RobotContainer
   private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 60);
   private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 80);
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 265);
-  private final ShooterCommand rollRun = new ShooterCommand(null, null, coralSubsystem);
+  //ivate final ShooterCommand activateShooter
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -194,19 +194,19 @@ public class RobotContainer
 
       operatorXbox.a().onTrue(setElevatorPoseZero);
       operatorXbox.b().onTrue(setElevatorPoseLowGoal);
-      operatorXbox.y().onTrue(setElevatorPoseMediumGoal);
-      operatorXbox.x().onTrue(setElevatorPoseHighGoal);
-      operatorXbox.leftBumper().whileTrue(rollRun);
+      operatorXbox.x().onTrue(setElevatorPoseMediumGoal);
+      operatorXbox.y().onTrue(setElevatorPoseHighGoal);
+      ///ratorXbox.leftBumper().whileTrue(runRoller);
     }
     // Insert controller bindings for coral shooter
-    operatorXbox.leftStick()
+   //peratorXbox.leftStick()
       //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
+      //ileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
         //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_FAST, coralSubsystem));
 
-    operatorXbox.rightStick()
+  //operatorXbox.rightStick()
       //.whileTrue(coralSubsystem.runRoller(0, CoralConstants.CORAL_EJECT_VALUE_FAST));
-        .whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
+      //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
         //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_SLOW, coralSubsystem));
   }
 
