@@ -73,25 +73,25 @@ public class Robot extends TimedRobot
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
-    TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
-    configs.Slot0.kI = 0; // No output for integrated error
-    configs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
+    TalonFXConfiguration positionconfigs = new TalonFXConfiguration();
+    positionconfigs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
+    positionconfigs.Slot0.kI = 0; // No output for integrated error
+    positionconfigs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
     // Peak output of 8 V
-    configs.Voltage.withPeakForwardVoltage(Volts.of(8))
+    positionconfigs.Voltage.withPeakForwardVoltage(Volts.of(8))
       .withPeakReverseVoltage(Volts.of(-8));
 
-    configs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
-    configs.Slot1.kI = 0; // No output for integrated error
-    configs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
+    positionconfigs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
+    positionconfigs.Slot1.kI = 0; // No output for integrated error
+    positionconfigs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
     // Peak output of 120 A
-    configs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
+    positionconfigs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
       .withPeakReverseTorqueCurrent(Amps.of(-120));
 
     /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
-      status = algaeAngle.getConfigurator().apply(configs);
+      status = algaeAngle.getConfigurator().apply(positionconfigs);
       if (status.isOK()) break;
     }
     if (!status.isOK()) {
