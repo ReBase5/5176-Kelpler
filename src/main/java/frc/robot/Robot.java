@@ -6,8 +6,11 @@ package frc.robot;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -36,11 +39,16 @@ public class Robot extends TimedRobot
 
   private final TalonFX algaeAngle = new TalonFX(17, "rio");
   private final TalonFX climber = new TalonFX(45,"rio");
+  private final TalonFX climb_fllr = new TalonFX(45, "rio");
 
   private final XboxController operatorXbox = new XboxController(1);
 
   /* Start at position 0, use slot 0 */
   private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
+    /* Start at velocity 0, use slot 0 */
+  private final VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
+  /* Start at velocity 0, use slot 1 */
+  private final VelocityTorqueCurrentFOC m_velocityTorque = new VelocityTorqueCurrentFOC(0).withSlot(1);
 
   private final NeutralOut m_brake = new NeutralOut();
 
@@ -73,6 +81,7 @@ public class Robot extends TimedRobot
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
+    //positionconfig
     TalonFXConfiguration positionconfigs = new TalonFXConfiguration();
     positionconfigs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
     positionconfigs.Slot0.kI = 0; // No output for integrated error
@@ -87,6 +96,28 @@ public class Robot extends TimedRobot
     // Peak output of 120 A
     positionconfigs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
       .withPeakReverseTorqueCurrent(Amps.of(-120));
+    //end positionconfig
+
+    //velocityconfig
+    TalonFXConfiguration velocityconfigs = new TalonFXConfiguration();
+    velocityconfigs.Slot0.kS = 0.1; // To account for friction, add 0.1 V of static feedforward
+    velocityconfigs.Slot0.kV = 0.12; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second
+    velocityconfigs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 0.11 V output
+    velocityconfigs.Slot0.kI = 0; // No output for integrated error
+    velocityconfigs.Slot0.kD = 0; // No output for error derivative
+    // Peak output of 8 volts
+    velocityconfigs.Voltage.withPeakForwardVoltage(Volts.of(8))
+      .withPeakReverseVoltage(Volts.of(-8));
+
+    /* Torque-based velocity does not require a velocity feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
+    velocityconfigs.Slot1.kS = 2.5; // To account for friction, add 2.5 A of static feedforward
+    velocityconfigs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 A output
+    velocityconfigs.Slot1.kI = 0; // No output for integrated error
+    velocityconfigs.Slot1.kD = 0; // No output for error derivative
+    // Peak output of 40 A
+    velocityconfigs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(40))
+      .withPeakReverseTorqueCurrent(Amps.of(-40));
+    //end velocityconfig
 
     /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
@@ -100,6 +131,8 @@ public class Robot extends TimedRobot
 
     /* Make sure we start at 0 */
     algaeAngle.setPosition(0);
+
+    climb_fllr.setControl(new Follower(climber.getDeviceID(), false));
   }
 
   /**
@@ -179,7 +212,7 @@ public class Robot extends TimedRobot
     {
       CommandScheduler.getInstance().cancelAll();
     }
-
+    //algae
     double desiredRotations = operatorXbox.getRightY() * 10; // Go for plus/minus 10 rotations
     if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
       desiredRotations = 0;
@@ -191,6 +224,24 @@ public class Robot extends TimedRobot
     } else {
       /* Disable the motor instead */
       algaeAngle.setControl(m_brake);
+    }
+    //end algae
+
+    //climber
+    double joyValue = operatorXbox.getLeftY();
+    if (Math.abs(joyValue) < 0.1) joyValue = 0;
+
+    double desiredRotationsPerSecond = joyValue * 50; // Go for plus/minus 50 rotations per second
+
+    if (operatorXbox.getLeftBumperButton()) {
+      /* Use velocity voltage */
+      climber.setControl(m_velocityVoltage.withVelocity(desiredRotationsPerSecond));
+    } else if (operatorXbox.getRightBumperButton()) {
+      /* Use velocity torque */
+      climber.setControl(m_velocityTorque.withVelocity(desiredRotationsPerSecond));
+    } else {
+      /* Disable the motor instead */
+      climber.setControl(m_brake);
     }
   }
 
