@@ -20,10 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
-
+import frc.robot.commands.SetAlgaeAngle;
+import frc.robot.commands.SetCoralAngle;
 import frc.robot.commands.SetElevatorPose;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -38,6 +40,7 @@ public class RobotContainer
 {
   //Coral shooting subsystem created
   private final CoralSubsystem coralSubsystem = new CoralSubsystem();
+  private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
 
   //Coral angle subsystem created
 
@@ -107,6 +110,18 @@ public class RobotContainer
   private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 60);
   private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 80);
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 265);
+
+  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 0);
+  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 10);
+
+  private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
+  private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
+
+  //private final double forwardholder = 5.0;
+  //private final double nullHolder = 0.0;
+  //private final ShooterCommand shootForward = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
+  //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
+
   //ivate final ShooterCommand activateShooter
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -196,7 +211,19 @@ public class RobotContainer
       operatorXbox.b().onTrue(setElevatorPoseLowGoal);
       operatorXbox.x().onTrue(setElevatorPoseMediumGoal);
       operatorXbox.y().onTrue(setElevatorPoseHighGoal);
-      ///ratorXbox.leftBumper().whileTrue(runRoller);
+
+      operatorXbox.leftBumper().whileTrue(setCoralAngleRecieve);
+
+      operatorXbox.rightBumper().whileTrue(setAlgaeAngleUp);
+      
+      /*
+      if(operatorXbox.getLeftY() > 0) {
+        operatorXbox.leftStick().whileTrue(shootForward);
+      }
+      else {
+        operatorXbox.leftStick().whileTrue(shootBackward);
+      }
+        */
     }
     // Insert controller bindings for coral shooter
    //operatorXbox.leftStick()

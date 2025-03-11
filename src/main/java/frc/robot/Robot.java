@@ -37,14 +37,11 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-  private final TalonFX algaeAngle = new TalonFX(17, "rio");
   private final TalonFX climber = new TalonFX(45,"rio");
   private final TalonFX climb_fllr = new TalonFX(45, "rio");
 
   private final XboxController operatorXbox = new XboxController(1);
 
-  /* Start at position 0, use slot 0 */
-  private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
     /* Start at velocity 0, use slot 0 */
   private final VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
   /* Start at velocity 0, use slot 1 */
@@ -81,23 +78,6 @@ public class Robot extends TimedRobot
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
-    //positionconfig
-    TalonFXConfiguration positionconfigs = new TalonFXConfiguration();
-    positionconfigs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
-    positionconfigs.Slot0.kI = 0; // No output for integrated error
-    positionconfigs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
-    // Peak output of 8 V
-    positionconfigs.Voltage.withPeakForwardVoltage(Volts.of(8))
-      .withPeakReverseVoltage(Volts.of(-8));
-
-    positionconfigs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
-    positionconfigs.Slot1.kI = 0; // No output for integrated error
-    positionconfigs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
-    // Peak output of 120 A
-    positionconfigs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
-      .withPeakReverseTorqueCurrent(Amps.of(-120));
-    //end positionconfig
-
     //velocityconfig
     TalonFXConfiguration velocityconfigs = new TalonFXConfiguration();
     velocityconfigs.Slot0.kS = 0.1; // To account for friction, add 0.1 V of static feedforward
@@ -119,18 +99,7 @@ public class Robot extends TimedRobot
       .withPeakReverseTorqueCurrent(Amps.of(-40));
     //end velocityconfig
 
-    /* Retry config apply up to 5 times, report if failure */
-    StatusCode status = StatusCode.StatusCodeNotInitialized;
-    for (int i = 0; i < 5; ++i) {
-      status = algaeAngle.getConfigurator().apply(positionconfigs);
-      if (status.isOK()) break;
-    }
-    if (!status.isOK()) {
-      System.out.println("Could not apply configs, error code: " + status.toString());
-    }
-
     /* Make sure we start at 0 */
-    algaeAngle.setPosition(0);
 
     climb_fllr.setControl(new Follower(climber.getDeviceID(), false));
   }
@@ -212,20 +181,6 @@ public class Robot extends TimedRobot
     {
       CommandScheduler.getInstance().cancelAll();
     }
-    //algae
-    double desiredRotations = operatorXbox.getRightY() * 10; // Go for plus/minus 10 rotations
-    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
-      desiredRotations = 0;
-    }
-
-    if (operatorXbox.getLeftBumperButton()) {
-      /* Use position voltage */
-      algaeAngle.setControl(m_positionVoltage.withPosition(desiredRotations));
-    } else {
-      /* Disable the motor instead */
-      algaeAngle.setControl(m_brake);
-    }
-    //end algae
 
     //climber
     double joyValue = operatorXbox.getLeftY();

@@ -16,17 +16,17 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CoralSubsystem extends SubsystemBase {
-  private final SparkMax shooter = new SparkMax(24, MotorType.kBrushless);;
-  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);;
+public class AlgaeSubsystem extends SubsystemBase {
+  private final SparkMax shooter = new SparkMax(33, MotorType.kBrushless);;
+  private final SparkMax angleMotor = new SparkMax(34, MotorType.kBrushless);;
 
   private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 
-  private double coralAngle = 0;
+  private double algaeAngle = 0;
   private RelativeEncoder angleEncoder = angleMotor.getEncoder();
 
   /** Creates a new CoralSubsystem. */
-  public CoralSubsystem() {
+  public AlgaeSubsystem() {
 
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
@@ -49,17 +49,17 @@ public class CoralSubsystem extends SubsystemBase {
 
   }
 
-  public void setCoralAngle(double coralAngle) {
-    this.coralAngle = coralAngle;
-    angleController.setReference(coralAngle, SparkBase.ControlType.kPosition);
+  public void setAlgaeAngle(double algaeAngle) {
+    this.algaeAngle = algaeAngle;
+    angleController.setReference(algaeAngle, SparkBase.ControlType.kPosition);
   }
 
-  public double getCoralAngle() {
-    return coralAngle;
+  public double getAlgaeAngle() {
+    return algaeAngle;
   }
 
-  public boolean isAtCoralAngle() {
-    if((coralAngle - 1 < angleEncoder.getPosition()) && (angleEncoder.getPosition() < coralAngle + 1))
+  public boolean isAtAlgaeAngle() {
+    if((algaeAngle - 1 < angleEncoder.getPosition()) && (angleEncoder.getPosition() < algaeAngle + 1))
       return true;
     else 
       return false;

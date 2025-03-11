@@ -4,39 +4,38 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.AlgaeSubsystem;
+// import frc.robot.subsystems.testArm;
+import frc.robot.subsystems.ElevatorSubsystem;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterCommand extends Command {
-  private final DoubleSupplier forward;
-  private final DoubleSupplier reverse;
-  private final CoralSubsystem coralSub;
- /** Creates a new ShooterCommand. */
-  
-  public ShooterCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
-    this.forward = forward;
-    this.reverse = reverse;
-    this.coralSub = coralSub;
+public class SetAlgaeAngle extends Command {
+  /** Creates a new SetCoralAngle. */
+  private AlgaeSubsystem algae;
+  private double algaeAngle;
 
-    addRequirements(this.coralSub);
+  public SetAlgaeAngle() {
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+// not sure if coralSubsystem is how it should be named - it was previously caled armSubystem.
+  public SetAlgaeAngle(AlgaeSubsystem algaeSubsystem, double algaeAngle) {
+    this.algae = algaeSubsystem;
+    this.algaeAngle = algaeAngle;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(algae);
   }
 
-
+//*************** */ Made it to here in my progress**********************
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  // Run the roller motor at the desired speed
-    coralSub.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-  }
-  
+  public void execute() {}
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
