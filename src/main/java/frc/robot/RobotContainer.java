@@ -129,6 +129,9 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    NamedCommands.registerCommand("setAlgaeAngleUp", setAlgaeAngleUp);
+    NamedCommands.registerCommand("exampleCommand", exampleSubsystem.exampleCommand());
+    NamedCommands.registerCommand("someOtherCommand", new SomeOtherCommand());
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
