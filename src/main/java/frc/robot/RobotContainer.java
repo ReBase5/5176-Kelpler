@@ -130,8 +130,16 @@ public class RobotContainer
   public RobotContainer()
   {
     NamedCommands.registerCommand("setAlgaeAngleUp", setAlgaeAngleUp);
-    NamedCommands.registerCommand("exampleCommand", exampleSubsystem.exampleCommand());
-    NamedCommands.registerCommand("someOtherCommand", new SomeOtherCommand());
+    NamedCommands.registerCommand("setAlgaeAngleDown", setAlgaeAngleDown);
+    NamedCommands.registerCommand("setCoralAngleRecieve", setCoralAngleRecieve);
+    NamedCommands.registerCommand("setCoralAngleShoot", setCoralAngleShoot);
+    NamedCommands.registerCommand("setElevatorPoseZero", setElevatorPoseZero);
+    NamedCommands.registerCommand("setElevatorPoseLowGoal", setElevatorPoseLowGoal);
+    NamedCommands.registerCommand("setElevatorPoseMediumGoal", setElevatorPoseMediumGoal);
+    NamedCommands.registerCommand("setElevatorPoseHighGoal", setElevatorPoseHighGoal);
+    NamedCommands.registerCommand("shootForward", shootForward);
+    NamedCommands.registerCommand("shootBackward", shootBackward);
+
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
