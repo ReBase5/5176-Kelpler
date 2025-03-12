@@ -11,13 +11,16 @@ import frc.robot.subsystems.CoralSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterCommand extends Command {
-  private final DoubleSupplier forward;
-  private final DoubleSupplier reverse;
+  //private final DoubleSupplier forward;
+  //private final DoubleSupplier reverse;
+  private final double forward;
+  private final double reverse;
   private final CoralSubsystem coralSub;
  /** Creates a new ShooterCommand. */
   
   public ShooterCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
+      //DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
+        double forward, double reverse, CoralSubsystem coralSub){
     this.forward = forward;
     this.reverse = reverse;
     this.coralSub = coralSub;
@@ -34,7 +37,8 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
   // Run the roller motor at the desired speed
-    coralSub.runRoller(forward.getAsDouble(), reverse.getAsDouble());
+ //oralSub.forward.getAsDouble(), reverse.getAsDouble())
+
   }
   
   // Called once the command ends or is interrupted.

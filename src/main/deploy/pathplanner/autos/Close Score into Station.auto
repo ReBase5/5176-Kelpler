@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Close to Reef"
+            "pathName": "ClosetoReef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Reef to Station"
+            "pathName": "ReeftoStation"
           }
         }
       ]
