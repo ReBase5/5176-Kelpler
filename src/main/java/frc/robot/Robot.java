@@ -36,7 +36,7 @@ public class Robot extends TimedRobot
 
   private RobotContainer m_robotContainer;
 
-  private final CoralSubsystem coralSubsystem = new CoralSubsystem();
+  //private final CoralSubsystem coralSubsystem = new CoralSubsystem();
 
   private Timer disabledTimer;
 
@@ -210,7 +210,7 @@ public class Robot extends TimedRobot
       climber.setControl(m_brake);
     }
 
-    coralSubsystem.runRoller(joyValue, 0.0);
+    //m_robotContainer.coralSubsystem.runRoller(joyValue, 0.0);
   }
 
   @Override

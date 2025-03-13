@@ -18,6 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralSubsystem extends SubsystemBase {
+  static {
+  System.out.println("created coral subsystem");
+  }
+
   private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);
   private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
 
@@ -28,7 +32,7 @@ public class CoralSubsystem extends SubsystemBase {
 
   /** Creates a new CoralSubsystem. */
   public CoralSubsystem() {
-    System.out.println("created coral subsystem");
+
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
@@ -47,7 +51,7 @@ public class CoralSubsystem extends SubsystemBase {
     angleConfig.closedLoop.pid(0.01, 0, 0.002);
 
     angleMotor.configure(angleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+  
   }
 
   public void setCoralAngle(double coralAngle) {

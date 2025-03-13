@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.CoralCommand;
 import frc.robot.commands.SetAlgaeAngle;
 import frc.robot.commands.SetCoralAngle;
 import frc.robot.commands.SetElevatorPose;
@@ -113,8 +114,8 @@ public class RobotContainer
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 282);
 
   private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
-  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 3);
-  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 5);
+  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 30);
+  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 50);
 
   private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
   private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
@@ -124,6 +125,8 @@ public class RobotContainer
   //private final ShooterCommand shoot = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
   //private final ShooterCommand shoot = new ShooterCommand(operatorXbox.getLeftY(), 0, coralSubsystem);
   private final ShooterCommand shoot = new ShooterCommand(2, 0, coralSubsystem); //good one
+  private final ShooterCommand stopShoot = new ShooterCommand(0, 0, coralSubsystem);
+  
   //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
 
   //ivate final ShooterCommand activateShooter
@@ -232,9 +235,10 @@ public class RobotContainer
       operatorXbox.leftBumper().onTrue(setCoralAngleRecieve);
       operatorXbox.leftBumper().onFalse(setCoralAngleShoot);
 
-      operatorXbox.rightBumper().whileTrue(setAlgaeAngleUp);
+      //operatorXbox.rightBumper().whileTrue(setAlgaeAngleUp);
 
-      operatorXbox.rightTrigger().whileTrue(shoot);
+      operatorXbox.start().onTrue(shoot);
+      operatorXbox.start().onFalse(stopShoot);
 
       
       //if(operatorXbox.getLeftY() > 0) {
@@ -243,12 +247,12 @@ public class RobotContainer
       //else {
         //operatorXbox.leftStick().whileTrue(shootBackward);
       //}
-        
+      //operatorXbox.rightBumper().whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
     }
     // Insert controller bindings for coral shooter
-   //operatorXbox.leftStick()
-      //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
-        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
+   //operatorXbox.rightBumper().whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
+   //operatorXbox.rightBumper().onFalse(new CoralCommand(() -> 0, () -> 0, coralSubsystem)); 
+   //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
         //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_FAST, coralSubsystem));
 
   //operatorXbox.rightStick()
