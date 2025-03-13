@@ -16,9 +16,9 @@ public class SetAlgaeAngle extends Command {
   private AlgaeSubsystem algae;
   private double algaeAngle;
 
-  public SetAlgaeAngle() {
+  //public SetAlgaeAngle() {
     // Use addRequirements() here to declare subsystem dependencies.
-  }
+  //}
 // not sure if coralSubsystem is how it should be named - it was previously caled armSubystem.
   public SetAlgaeAngle(AlgaeSubsystem algaeSubsystem, double algaeAngle) {
     this.algae = algaeSubsystem;

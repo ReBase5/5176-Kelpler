@@ -17,7 +17,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AlgaeSubsystem extends SubsystemBase {
-  private final SparkMax shooter = new SparkMax(33, MotorType.kBrushless);;
+  private final SparkMax algaeShooter = new SparkMax(33, MotorType.kBrushless);;
   private final SparkMax angleMotor = new SparkMax(34, MotorType.kBrushless);;
 
   private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
@@ -31,7 +31,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
-    shooter.setCANTimeout(250);
+    algaeShooter.setCANTimeout(250);
 
     // Create and apply configuration for roller motor. Voltage compensation helps
     // the roller behave the same as the battery
@@ -40,7 +40,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     SparkMaxConfig rollerConfig = new SparkMaxConfig();
     rollerConfig.voltageCompensation(10);
     rollerConfig.smartCurrentLimit(60);
-    shooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    algaeShooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig angleConfig = new SparkMaxConfig();
     angleConfig.idleMode(IdleMode.kBrake);
     angleConfig.closedLoop.pid(0.01, 0, 0.002);
@@ -72,6 +72,6 @@ public class AlgaeSubsystem extends SubsystemBase {
   }
   /** This is a method that makes the roller spin */
   public void runRoller(double forward, double reverse) {
-    shooter.set(forward - reverse);
-  }
+    algaeShooter.set(forward - reverse);
+}
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 9.373589743589742,
-        "y": 0.732756410256411
+        "x": 10.415961538461538,
+        "y": 0.7637179487179492
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.233251809813783,
-        "y": 1.197295720444583
+        "x": 11.31133539795667,
+        "y": 1.4996544290548217
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 12.232371794871794,
-        "y": 2.5285256410256407
+        "x": 12.108525641025642,
+        "y": 2.445961538461538
       },
       "prevControl": {
-        "x": 11.463940373943949,
-        "y": 1.9789429634411113
+        "x": 11.27388978133261,
+        "y": 1.5617057756033115
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,32 +31,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "setElevatorPoseHigh",
-      "waypointRelativePos": 0.5525179856115107,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.5
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "setCoralAngleShoot"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

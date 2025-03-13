@@ -108,20 +108,23 @@ public class RobotContainer
 
   private final SetElevatorPose setElevatorPoseZero = new SetElevatorPose(elevatorSubsystem, 0);
   private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 60);
-  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 80);
-  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 265);
+  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 140);
+  private final SetElevatorPose setElevatorPoseRecieve = new SetElevatorPose(elevatorSubsystem, 160);
+  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 282);
 
-  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 0);
-  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 10);
+  private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
+  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 3);
+  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 5);
 
   private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
   private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
 
 //private  double forwardholder = 5.0;
  //private  double nullHolder = 0.0;
-  //private final ShooterCommand shootForward = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
-  private final ShooterCommand shootForward = new ShooterCommand(5.0, 0.0, coralSubsystem);
-  private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
+  //private final ShooterCommand shoot = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
+  //private final ShooterCommand shoot = new ShooterCommand(operatorXbox.getLeftY(), 0, coralSubsystem);
+  private final ShooterCommand shoot = new ShooterCommand(2, 0, coralSubsystem); //good one
+  //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
 
   //ivate final ShooterCommand activateShooter
   /**
@@ -136,14 +139,15 @@ public class RobotContainer
     NamedCommands.registerCommand("setElevatorPoseZero", setElevatorPoseZero);
     NamedCommands.registerCommand("setElevatorPoseLowGoal", setElevatorPoseLowGoal);
     NamedCommands.registerCommand("setElevatorPoseMediumGoal", setElevatorPoseMediumGoal);
+    NamedCommands.registerCommand("setElevatorPoseRecieve", setElevatorPoseRecieve);
     NamedCommands.registerCommand("setElevatorPoseHighGoal", setElevatorPoseHighGoal);
-    NamedCommands.registerCommand("shootForward", shootForward);
-    NamedCommands.registerCommand("shootBackward", shootBackward);
+    NamedCommands.registerCommand("shoot", shoot);
+    //NamedCommands.registerCommand("shootBackward", shootBackward);
 
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
-    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    //NamedCommands.registerCommand("test", Commands.print("I EXIST"));
   }
 
   /**
@@ -208,7 +212,7 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     } else
     {
-      driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+      //driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
       driverXbox.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
       driverXbox.b().whileTrue(
           drivebase.driveToPose(
@@ -216,21 +220,25 @@ public class RobotContainer
                               );
       driverXbox.start().whileTrue(Commands.none());
       driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
 
       operatorXbox.a().onTrue(setElevatorPoseZero);
       operatorXbox.b().onTrue(setElevatorPoseLowGoal);
-      operatorXbox.x().onTrue(setElevatorPoseMediumGoal);
-      operatorXbox.y().onTrue(setElevatorPoseHighGoal);
+      operatorXbox.x().onTrue(setElevatorPoseHighGoal);
+      operatorXbox.y().onTrue(setElevatorPoseMediumGoal);
+      operatorXbox.back().onTrue(setElevatorPoseRecieve);
 
-      operatorXbox.leftBumper().whileTrue(setCoralAngleRecieve);
+      operatorXbox.leftBumper().onTrue(setCoralAngleRecieve);
+      operatorXbox.leftBumper().onFalse(setCoralAngleShoot);
 
       operatorXbox.rightBumper().whileTrue(setAlgaeAngleUp);
 
+      operatorXbox.rightTrigger().whileTrue(shoot);
+
       
       //if(operatorXbox.getLeftY() > 0) {
-        operatorXbox.leftStick().whileTrue(shootForward);
+        //operatorXbox.leftStick().whileTrue(shoot);
       //}
       //else {
         //operatorXbox.leftStick().whileTrue(shootBackward);
@@ -257,7 +265,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("MediumScoreintoStation");
   }
 
   public void setMotorBrake(boolean brake)

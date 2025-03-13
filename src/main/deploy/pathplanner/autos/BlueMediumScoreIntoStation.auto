@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ClosetoReef"
+            "pathName": "BlueMediumToReef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReeftoStation"
+            "pathName": "BlueReefToStation"
           }
         }
       ]

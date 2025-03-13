@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.CoralSubsystem;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -34,6 +35,8 @@ public class Robot extends TimedRobot
   private        Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private final CoralSubsystem coralSubsystem = new CoralSubsystem();
 
   private Timer disabledTimer;
 
@@ -182,6 +185,14 @@ public class Robot extends TimedRobot
       CommandScheduler.getInstance().cancelAll();
     }
 
+  }
+
+  /**
+   * This function is called periodically during operator control.
+   */
+  @Override
+  public void teleopPeriodic()
+  {
     //climber
     double joyValue = operatorXbox.getLeftY();
     if (Math.abs(joyValue) < 0.1) joyValue = 0;
@@ -198,14 +209,8 @@ public class Robot extends TimedRobot
       /* Disable the motor instead */
       climber.setControl(m_brake);
     }
-  }
 
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic()
-  {
+    coralSubsystem.runRoller(joyValue, 0.0);
   }
 
   @Override

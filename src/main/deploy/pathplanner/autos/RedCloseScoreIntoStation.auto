@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddletoReef"
+            "pathName": "RedCloseToReef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReeftoStation"
+            "pathName": "RedReefToStation"
           }
         }
       ]

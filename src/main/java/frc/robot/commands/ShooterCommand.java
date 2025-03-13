@@ -37,7 +37,7 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
   // Run the roller motor at the desired speed
- //oralSub.forward.getAsDouble(), reverse.getAsDouble())
+  coralSub.runRoller(forward, reverse);
 
   }
   

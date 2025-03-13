@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FartoReef"
+            "pathName": "BlueFarToReef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReeftoStation"
+            "pathName": "BlueReefToStation"
           }
         }
       ]

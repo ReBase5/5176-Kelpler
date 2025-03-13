@@ -14,11 +14,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CoralSubsystem extends SubsystemBase {
-  private final SparkMax shooter = new SparkMax(24, MotorType.kBrushless);;
-  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);;
+  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);
+  private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
 
   private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 
@@ -27,11 +28,11 @@ public class CoralSubsystem extends SubsystemBase {
 
   /** Creates a new CoralSubsystem. */
   public CoralSubsystem() {
-
+    System.out.println("created coral subsystem");
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
-    shooter.setCANTimeout(250);
+    coralShooter.setCANTimeout(250);
 
     // Create and apply configuration for roller motor. Voltage compensation helps
     // the roller behave the same as the battery
@@ -40,7 +41,7 @@ public class CoralSubsystem extends SubsystemBase {
     SparkMaxConfig rollerConfig = new SparkMaxConfig();
     rollerConfig.voltageCompensation(10);
     rollerConfig.smartCurrentLimit(60);
-    shooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    coralShooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig angleConfig = new SparkMaxConfig();
     angleConfig.idleMode(IdleMode.kBrake);
     angleConfig.closedLoop.pid(0.01, 0, 0.002);
@@ -69,9 +70,10 @@ public class CoralSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("CoralAngle", coralAngle);
   }
   /** This is a method that makes the roller spin */
   public void runRoller(double forward, double reverse) {
-    shooter.set(forward - reverse);
+    coralShooter.set(forward - reverse);
   }
 }
