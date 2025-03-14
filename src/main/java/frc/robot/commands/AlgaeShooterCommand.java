@@ -7,25 +7,26 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterCommand extends Command {
+public class AlgaeShooterCommand extends Command {
   //private final DoubleSupplier forward;
   //private final DoubleSupplier reverse;
   private final double forward;
   private final double reverse;
-  private final CoralSubsystem coralSub;
+  private final AlgaeSubsystem algaeSub;
  /** Creates a new ShooterCommand. */
   
-  public ShooterCommand(
+  public AlgaeShooterCommand(
       //DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
-        double forward, double reverse, CoralSubsystem coralSub){
+        double forward, double reverse, AlgaeSubsystem algaeSub){
     this.forward = forward;
     this.reverse = reverse;
-    this.coralSub = coralSub;
+    this.algaeSub = algaeSub;
 
-    addRequirements(this.coralSub);
+    addRequirements(this.algaeSub);
   }
 
 
@@ -37,7 +38,7 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
   // Run the roller motor at the desired speed
-  coralSub.runRoller(forward, reverse);
+  algaeSub.runRoller(forward, reverse);
 
   }
   

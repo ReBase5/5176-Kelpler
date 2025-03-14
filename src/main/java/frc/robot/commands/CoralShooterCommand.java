@@ -4,32 +4,31 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.spark.SparkBase;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaeSubsystem;
-// import frc.robot.subsystems.testArm;
-import frc.robot.subsystems.ElevatorSubsystem;
-
+import frc.robot.subsystems.CoralSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetAlgaeAngle extends Command {
-  /** Creates a new SetCoralAngle. */
-  private AlgaeSubsystem algae;
-  private double algaeAngle;
-
-  //public SetAlgaeAngle() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  //}
+public class CoralShooterCommand extends Command {
+  //private final DoubleSupplier forward;
+  //private final DoubleSupplier reverse;
+  private final double forward;
+  private final double reverse;
+  private final CoralSubsystem coralSub;
+ /** Creates a new ShooterCommand. */
   
-  public SetAlgaeAngle(AlgaeSubsystem algaeSubsystem, double algaeAngle) {
-    this.algae = algaeSubsystem;
-    this.algaeAngle = algaeAngle;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(algae);
+  public CoralShooterCommand(
+      //DoubleSupplier forward, DoubleSupplier reverse, CoralSubsystem coralSub){
+        double forward, double reverse, CoralSubsystem coralSub){
+    this.forward = forward;
+    this.reverse = reverse;
+    this.coralSub = coralSub;
+
+    addRequirements(this.coralSub);
   }
 
-//*************** */ Made it to here in my progress**********************
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -37,9 +36,11 @@ public class SetAlgaeAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    algae.angleController.setReference(algaeAngle, SparkBase.ControlType.kPosition);
-  }
+  // Run the roller motor at the desired speed
+  coralSub.runRoller(forward, reverse);
 
+  }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

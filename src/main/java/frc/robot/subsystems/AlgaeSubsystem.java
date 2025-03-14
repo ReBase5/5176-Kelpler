@@ -20,7 +20,7 @@ public class AlgaeSubsystem extends SubsystemBase {
   private final SparkMax algaeShooter = new SparkMax(33, MotorType.kBrushless);;
   private final SparkMax angleMotor = new SparkMax(34, MotorType.kBrushless);;
 
-  private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
+  public SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 
   private double algaeAngle = 0;
   private RelativeEncoder angleEncoder = angleMotor.getEncoder();

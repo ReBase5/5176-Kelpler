@@ -25,7 +25,7 @@ public class CoralSubsystem extends SubsystemBase {
   private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);
   private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
 
-  private SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
+  public SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
 
   private double coralAngle = 0;
   private RelativeEncoder angleEncoder = angleMotor.getEncoder();

@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.CoralSubsystem;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -44,6 +43,7 @@ public class Robot extends TimedRobot
   private final TalonFX climb_fllr = new TalonFX(45, "rio");
 
   private final XboxController operatorXbox = new XboxController(1);
+  private final XboxController driverXbox = new XboxController(0);
 
     /* Start at velocity 0, use slot 0 */
   private final VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
@@ -199,10 +199,10 @@ public class Robot extends TimedRobot
 
     double desiredRotationsPerSecond = joyValue * 50; // Go for plus/minus 50 rotations per second
 
-    if (operatorXbox.getLeftBumperButton()) {
+    if (driverXbox.getLeftBumperButton()) {
       /* Use velocity voltage */
       climber.setControl(m_velocityVoltage.withVelocity(desiredRotationsPerSecond));
-    } else if (operatorXbox.getRightBumperButton()) {
+    } else if (driverXbox.getRightBumperButton()) {
       /* Use velocity torque */
       climber.setControl(m_velocityTorque.withVelocity(desiredRotationsPerSecond));
     } else {
