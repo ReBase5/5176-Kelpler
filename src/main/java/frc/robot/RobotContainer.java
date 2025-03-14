@@ -21,13 +21,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CoralCommand;
-import frc.robot.commands.SetAlgaeAngle;
+//import frc.robot.commands.SetAlgaeAngle;
 import frc.robot.commands.SetCoralAngle;
 import frc.robot.commands.SetElevatorPose;
 import frc.robot.commands.CoralShooterCommand;
-import frc.robot.commands.AlgaeShooterCommand;
+//import frc.robot.commands.AlgaeShooterCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.AlgaeSubsystem;
+//import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -42,7 +42,7 @@ public class RobotContainer
 {
   //Coral shooting subsystem created
   private final CoralSubsystem coralSubsystem = new CoralSubsystem();
-  private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
+  //private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
 
   //Coral angle subsystem created
 
@@ -115,11 +115,11 @@ public class RobotContainer
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 282);
 
   private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
-  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 30);
-  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, 50);
+  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, -3);
+  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem, -5);
 
-  private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
-  private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
+  //private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
+  //private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
 
 //private  double forwardholder = 5.0;
  //private  double nullHolder = 0.0;
@@ -129,8 +129,8 @@ public class RobotContainer
   private final CoralShooterCommand stopCoralShoot = new CoralShooterCommand(0, 0, coralSubsystem);
   private final CoralShooterCommand coralIntake = new CoralShooterCommand(0, 2, coralSubsystem);
   
-  private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(2, 0, algaeSubsystem);
-  private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);
+  //private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(0, 2, algaeSubsystem);
+  //private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);
 
   //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
 
@@ -140,8 +140,8 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    NamedCommands.registerCommand("setAlgaeAngleUp", setAlgaeAngleUp);
-    NamedCommands.registerCommand("setAlgaeAngleDown", setAlgaeAngleDown);
+    //NamedCommands.registerCommand("setAlgaeAngleUp", setAlgaeAngleUp);
+    //NamedCommands.registerCommand("setAlgaeAngleDown", setAlgaeAngleDown);
     NamedCommands.registerCommand("setCoralAngleRecieve", setCoralAngleRecieve);
     NamedCommands.registerCommand("setCoralAngleShoot", setCoralAngleShoot);
     NamedCommands.registerCommand("setElevatorPoseZero", setElevatorPoseZero);
@@ -151,8 +151,9 @@ public class RobotContainer
     NamedCommands.registerCommand("setElevatorPoseHighGoal", setElevatorPoseHighGoal);
     NamedCommands.registerCommand("coralShoot", coralShoot);
     NamedCommands.registerCommand("stopCoralShoot", stopCoralShoot);
-    NamedCommands.registerCommand("algaeShoot", algaeShoot);
-    NamedCommands.registerCommand("stopAlgaeShoot", stopAlgaeShoot);
+    NamedCommands.registerCommand("coralIntake", coralIntake);
+    //NamedCommands.registerCommand("algaeShoot", algaeShoot);
+    //NamedCommands.registerCommand("stopAlgaeShoot", stopAlgaeShoot);
     //NamedCommands.registerCommand("shootBackward", shootBackward);
 
     // Configure the trigger bindings
@@ -244,15 +245,15 @@ public class RobotContainer
       operatorXbox.leftBumper().onTrue(setElevatorPoseRecieve);
       operatorXbox.leftBumper().onFalse(setCoralAngleShoot);
 
-      operatorXbox.rightBumper().onTrue(setAlgaeAngleUp);
-      operatorXbox.rightBumper().onFalse(setAlgaeAngleDown);
+      //operatorXbox.rightBumper().onTrue(setAlgaeAngleUp);
+      //operatorXbox.rightBumper().onFalse(setAlgaeAngleDown);
 
       operatorXbox.start().onTrue(coralShoot);
       operatorXbox.start().onFalse(stopCoralShoot);
       operatorXbox.rightStick().onTrue(coralIntake);
 
-      operatorXbox.back().onTrue(algaeShoot);
-      operatorXbox.back().onFalse(stopAlgaeShoot);
+      //operatorXbox.back().onTrue(algaeShoot);
+      //operatorXbox.back().onFalse(stopAlgaeShoot);
 
       
       //if(operatorXbox.getLeftY() > 0) {
