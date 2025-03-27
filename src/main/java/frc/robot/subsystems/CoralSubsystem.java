@@ -48,7 +48,7 @@ public class CoralSubsystem extends SubsystemBase {
     coralShooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig angleConfig = new SparkMaxConfig();
     angleConfig.idleMode(IdleMode.kBrake);
-    angleConfig.closedLoop.pid(0.01, 0, 0.002);
+    angleConfig.closedLoop.pid(0.1, 0, 0.005);
 
     angleMotor.configure(angleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   

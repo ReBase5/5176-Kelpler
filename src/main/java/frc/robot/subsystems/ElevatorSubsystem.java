@@ -38,7 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
 
     config.idleMode(IdleMode.kCoast);
-    config.closedLoop.pid(0.3, 0, 0.08);
+    config.closedLoop.pid(2.0, 0, 0.2);
     config.inverted(true);
 
     motorA.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

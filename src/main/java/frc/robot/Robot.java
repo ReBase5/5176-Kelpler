@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot
   private Timer disabledTimer;
 
   private final TalonFX climber = new TalonFX(45,"rio");
-  private final TalonFX climb_fllr = new TalonFX(45, "rio");
+  // private final TalonFX climb_fllr = new TalonFX(45, "rio");
 
   private final XboxController operatorXbox = new XboxController(1);
   private final XboxController driverXbox = new XboxController(0);
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot
     /* Start at velocity 0, use slot 0 */
   private final VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
   /* Start at velocity 0, use slot 1 */
-  private final VelocityTorqueCurrentFOC m_velocityTorque = new VelocityTorqueCurrentFOC(0).withSlot(1);
+  //private final VelocityTorqueCurrentFOC m_velocityTorque = new VelocityTorqueCurrentFOC(0).withSlot(1);
 
   private final NeutralOut m_brake = new NeutralOut();
 
@@ -104,7 +105,9 @@ public class Robot extends TimedRobot
 
     /* Make sure we start at 0 */
 
-    climb_fllr.setControl(new Follower(climber.getDeviceID(), false));
+    // climber.setControl(new Follower(climber.getDeviceID(), false));
+    climber.setPosition(0);
+
   }
 
   /**
@@ -194,18 +197,17 @@ public class Robot extends TimedRobot
   public void teleopPeriodic()
   {
     //climber
-    double joyValue = operatorXbox.getLeftY();
+    double joyValue = driverXbox.getLeftY();
     if (Math.abs(joyValue) < 0.1) joyValue = 0;
 
     double desiredRotationsPerSecond = joyValue * 50; // Go for plus/minus 50 rotations per second
+    SmartDashboard.putNumber("desiredRotationsPerSecond", desiredRotationsPerSecond);
 
     if (driverXbox.getLeftBumperButton()) {
-      /* Use velocity voltage */
-      climber.setControl(m_velocityVoltage.withVelocity(desiredRotationsPerSecond));
+      climber.setControl(m_velocityVoltage.withVelocity(250));
     } else if (driverXbox.getRightBumperButton()) {
-      /* Use velocity torque */
-      climber.setControl(m_velocityTorque.withVelocity(desiredRotationsPerSecond));
-    } else {
+      climber.setControl(m_velocityVoltage.withVelocity(-250));}
+    else {
       /* Disable the motor instead */
       climber.setControl(m_brake);
     }
