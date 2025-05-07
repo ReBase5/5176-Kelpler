@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -21,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import static edu.wpi.first.units.Units.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -30,7 +33,7 @@ import static edu.wpi.first.units.Units.*;
  */
 public class Robot extends TimedRobot
 {
-
+  
   private static Robot   instance;
   private        Command m_autonomousCommand;
 
@@ -40,18 +43,21 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-  private final TalonFX climber = new TalonFX(45,"rio");
-  // private final TalonFX climb_fllr = new TalonFX(45, "rio");
+
+
+
+  private final TalonFX m_fx = new TalonFX(45, "rio");
+
+  /* Be able to switch which control request to use based on a button press */
+  /* Start at position 0, use slot 0 */
+  private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
+  /* Start at position 0, use slot 1 */
+  private final PositionTorqueCurrentFOC m_positionTorque = new PositionTorqueCurrentFOC(0).withSlot(1);
+  /* Keep a brake request so we can disable the motor */
+  private final NeutralOut m_brake = new NeutralOut();
 
   private final XboxController operatorXbox = new XboxController(1);
   private final XboxController driverXbox = new XboxController(0);
-
-    /* Start at velocity 0, use slot 0 */
-  private final VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
-  /* Start at velocity 0, use slot 1 */
-  //private final VelocityTorqueCurrentFOC m_velocityTorque = new VelocityTorqueCurrentFOC(0).withSlot(1);
-
-  private final NeutralOut m_brake = new NeutralOut();
 
   public Robot()
   {
@@ -82,8 +88,38 @@ public class Robot extends TimedRobot
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
+    //positionconfig
+    TalonFXConfiguration configs = new TalonFXConfiguration();
+    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
+    configs.Slot0.kI = 0; // No output for integrated error
+    configs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
+    // Peak output of 8 V
+    configs.Voltage.withPeakForwardVoltage(Volts.of(8))
+      .withPeakReverseVoltage(Volts.of(-8));
+
+    configs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
+    configs.Slot1.kI = 0; // No output for integrated error
+    configs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
+    // Peak output of 120 A
+    configs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
+      .withPeakReverseTorqueCurrent(Amps.of(-120));
+
+    /* Retry config apply up to 5 times, report if failure */
+    StatusCode status = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status = m_fx.getConfigurator().apply(configs);
+      if (status.isOK()) break;
+    }
+    if (!status.isOK()) {
+      System.out.println("Could not apply configs, error code: " + status.toString());
+    }
+
+    /* Make sure we start at 0 */
+    m_fx.setPosition(0);
+
+
     //velocityconfig
-    TalonFXConfiguration velocityconfigs = new TalonFXConfiguration();
+    /*TalonFXConfiguration velocityconfigs = new TalonFXConfiguration();
     velocityconfigs.Slot0.kS = 0.1; // To account for friction, add 0.1 V of static feedforward
     velocityconfigs.Slot0.kV = 0.12; // Kraken X60 is a 500 kV motor, 500 rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / rotation per second
     velocityconfigs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 0.11 V output
@@ -93,7 +129,7 @@ public class Robot extends TimedRobot
     velocityconfigs.Voltage.withPeakForwardVoltage(Volts.of(8))
       .withPeakReverseVoltage(Volts.of(-8));
 
-    /* Torque-based velocity does not require a velocity feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
+    /* Torque-based velocity does not require a velocity feed forward, as torque will accelerate the rotor up to the desired velocity by itself
     velocityconfigs.Slot1.kS = 2.5; // To account for friction, add 2.5 A of static feedforward
     velocityconfigs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 A output
     velocityconfigs.Slot1.kI = 0; // No output for integrated error
@@ -103,10 +139,10 @@ public class Robot extends TimedRobot
       .withPeakReverseTorqueCurrent(Amps.of(-40));
     //end velocityconfig
 
-    /* Make sure we start at 0 */
+    /* Make sure we start at 0
 
     // climber.setControl(new Follower(climber.getDeviceID(), false));
-    climber.setPosition(0);
+    climber.setPosition(0); */
 
   }
 
@@ -190,14 +226,46 @@ public class Robot extends TimedRobot
 
   }
 
-  /**
+  /*
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic()
   {
+    double desiredRotations = operatorXbox.getLeftY() * 10; // Go for plus/minus 10 rotations
+    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
+      desiredRotations = 0;
+    }
+
+    if (operatorXbox.getLeftBumperButton()) {
+      // Use position voltage 
+      m_fx.setControl(m_positionVoltage.withPosition(1)); //placeholder by mason, replace when tuning
+    } else if (operatorXbox.getRightBumperButton()) {
+      // Use position torque 
+      m_fx.setControl(m_positionTorque.withPosition(2)); //placeholder by mason, replace when tuning
+    } else {
+      // Disable the motor instead
+      m_fx.setControl(m_brake);
+    }
+
+
+    /*if (m_joystick.getLeftBumperButton()) {
+      // Use position voltage 
+      m_fx.setControl(m_positionVoltage.withPosition(desiredRotations));
+    } else if (m_joystick.getRightBumperButton()) {
+      // Use position torque 
+      m_fx.setControl(m_positionTorque.withPosition(desiredRotations));
+    } else {
+      // Disable the motor instead
+      m_fx.setControl(m_brake);
+    }
+    */
+
+
+
+
     //climber
-    double joyValue = driverXbox.getLeftY();
+    /*double joyValue = driverXbox.getLeftY();
     if (Math.abs(joyValue) < 0.1) joyValue = 0;
 
     double desiredRotationsPerSecond = joyValue * 50; // Go for plus/minus 50 rotations per second
@@ -208,9 +276,9 @@ public class Robot extends TimedRobot
     } else if (driverXbox.getRightBumperButton()) {
       climber.setControl(m_velocityVoltage.withVelocity(-250));}
     else {
-      /* Disable the motor instead */
-      climber.setControl(m_brake);
-    }
+      // Disable the motor instead 
+      climber.setControl(m_brake); 
+    } */
 
     //m_robotContainer.coralSubsystem.runRoller(joyValue, 0.0);
   }
