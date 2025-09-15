@@ -4,12 +4,10 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.spark.SparkBase;
 
 import edu.wpi.first.wpilibj2.command.Command;
 // import frc.robot.subsystems.testArm;
 import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -38,7 +36,7 @@ public class SetCoralAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coral.angleController.setReference(coralAngle, SparkBase.ControlType.kPosition);
+    coral.setCoralAngle(coralAngle);
   }
 
   // Called once the command ends or is interrupted.
