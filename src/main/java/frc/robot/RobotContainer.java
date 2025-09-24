@@ -18,9 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.CoralConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.CoralCommand;
 //import frc.robot.commands.SetAlgaeAngle;
 import frc.robot.commands.SetCoralAngle;
 import frc.robot.commands.SetElevatorPose;
@@ -108,21 +106,23 @@ public class RobotContainer
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+  // changed the goals on the elevator to be very low. Gear ratio was changed so we need to find the new goals.
   private final SetElevatorPose setElevatorPoseZero = new SetElevatorPose(elevatorSubsystem, 0);
   private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 1);
   private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 5);
   //private final SetElevatorPose setElevatorPoseRecieve = new SetElevatorPose(elevatorSubsystem, 160);
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 10);
 
+
   private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
   private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 2);
   private final SetCoralAngle setCoralAngleRecieve2 = new SetCoralAngle(coralSubsystem, 1.3);
-  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem,6);
+  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem,1);
 
   //private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
   //private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
 
-//private  double forwardholder = 5.0;
+ //private  double forwardholder = 5.0;
  //private  double nullHolder = 0.0;
   //private final ShooterCommand shoot = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
   //private final ShooterCommand shoot = new ShooterCommand(operatorXbox.getLeftY(), 0, coralSubsystem);
@@ -241,13 +241,15 @@ public class RobotContainer
       operatorXbox.x().onTrue(setElevatorPoseHighGoal);
       operatorXbox.y().onTrue(setElevatorPoseMediumGoal);
       //operatorXbox.back().onTrue(setElevatorPoseRecieve);
-
+      
+     
+      // need to find the correct values for setting the coral angle - Can be found by scrolling up
       operatorXbox.leftBumper().onTrue(setCoralAngleRecieve);
       //operatorXbox.leftStick().onTrue(setElevatorPoseRecieve);
       operatorXbox.leftBumper().onFalse(setCoralAngleShoot);
       operatorXbox.rightBumper().onTrue(setCoralAngleRecieve2);
       operatorXbox.rightBumper().onFalse(setCoralAngleShoot);
-
+      
       //operatorXbox.rightBumper().onTrue(setAlgaeAngleUp);
       //operatorXbox.rightBumper().onFalse(setAlgaeAngleDown);
 

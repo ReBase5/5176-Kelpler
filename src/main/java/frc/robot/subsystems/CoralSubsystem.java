@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -17,6 +18,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -27,8 +29,11 @@ public class CoralSubsystem extends SubsystemBase {
 
   // Creating motor objects
   // *** Need to find the device id for the TalonFX ***
-  private final TalonFX angleMotor = new TalonFX(0);
+  private final TalonFX angleMotor = new TalonFX(45);
   private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
+
+  // Create position torque and position voltage objects
+  private PositionVoltage angleMotor_positionVoltage = new PositionVoltage(0);
 
   private double coralAngle = 0;
 
@@ -56,20 +61,15 @@ public class CoralSubsystem extends SubsystemBase {
      ****** Still need to set PID values ******
     */
     TalonFXConfiguration angleConfig = new TalonFXConfiguration();
-    angleConfig.Slot0.kP = 0; // An erro of 1 rotation results in a 0 V output
+    angleConfig.Slot0.kP = 1; // An erro of 1 rotation results in a 0 V output
     angleConfig.Slot0.kI = 0; // No output for integrate error
-    angleConfig.Slot0.kD = 0; // A velocity of 1 rotation results in a 0 V output
+    angleConfig.Slot0.kD = 0.1; // A velocity of 1 rotation results in a 0 V output
     // Peak output of 8 V
     angleConfig.Voltage.withPeakForwardVoltage(Volts.of(8))
       .withPeakReverseVoltage(Volts.of(-8));
-    angleMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    angleConfig.Slot1.kP = 0; // An error of 1 rotation results in 0 A output
-    angleConfig.Slot1.kI = 0; // No output for integrated error
-    angleConfig.Slot1.kD = 0; // A velocity of 1 rps results in 0 A output
-    // Peak output of 120 A
-    angleConfig.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
-      .withPeakReverseTorqueCurrent(Amps.of(-120));
+      // set the neutral mode of the angle motor to brake
+      angleMotor.setNeutralMode(NeutralModeValue.Brake);
 
       /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
@@ -89,23 +89,14 @@ public class CoralSubsystem extends SubsystemBase {
   // set the angle of the angle motor
   public void setCoralAngle(double coralAngle) {
     this.coralAngle = coralAngle;
-    // need to create position voltage and position torque objects and
-    // set them to desired rotations, but I don't think that is supposed
-    // to happen in this file
+    
+    // change motor position to the correct angle(while the button is being pressed down)
+    angleMotor_positionVoltage.withPosition(coralAngle);
   }
   
   public double getCoralAngle() {
     return coralAngle;
   }
-  
-  /* I don't think this is needed because positiondutycycle does this already from my understanding.
-  public boolean isAtCoralAngle() {
-    if((coralAngle - 1 < angleEncoder.getPosition()) && (angleEncoder.getPosition() < coralAngle + 1))
-      return true;
-    else 
-      return false;
-  }
-*/
 
   @Override
   public void periodic() {

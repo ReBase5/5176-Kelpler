@@ -29,8 +29,6 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-  private final XboxController operatorXbox = new XboxController(1);
-  private final XboxController driverXbox = new XboxController(0);
 
   public Robot()
   {
@@ -191,10 +189,6 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
-    double desiredRotations = operatorXbox.getLeftY() * 10; // Go for plus/minus 10 rotations
-    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
-      desiredRotations = 0;
-    }
 
 
     /*if (m_joystick.getLeftBumperButton()) {

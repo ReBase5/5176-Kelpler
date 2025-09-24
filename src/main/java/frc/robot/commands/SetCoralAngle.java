@@ -14,7 +14,7 @@ import frc.robot.subsystems.CoralSubsystem;
 public class SetCoralAngle extends Command {
   /** Creates a new SetCoralAngle. */
   private CoralSubsystem coral;
-  private double coralAngle;
+  private double coralAngleRotations;
 
   public SetCoralAngle() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,7 +22,7 @@ public class SetCoralAngle extends Command {
 // not sure if coralSubsystem is how it should be named - it was previously caled armSubystem.
   public SetCoralAngle(CoralSubsystem coralSubsystem, double coralAngle) {
     this.coral = coralSubsystem;
-    this.coralAngle = coralAngle;
+    this.coralAngleRotations = coralAngle;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(coral);
@@ -36,7 +36,7 @@ public class SetCoralAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coral.setCoralAngle(coralAngle);
+    coral.setCoralAngle(coralAngleRotations);
   }
 
   // Called once the command ends or is interrupted.

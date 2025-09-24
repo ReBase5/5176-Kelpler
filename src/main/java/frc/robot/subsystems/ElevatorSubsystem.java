@@ -30,7 +30,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private double setPoint = 0;
 
   private RelativeEncoder encoderA = motorA.getEncoder();
-  private RelativeEncoder encoderB = motorB.getEncoder();
   
 
   /** Creates a new testArm. */
