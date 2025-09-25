@@ -4,16 +4,21 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkBase;
+import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,13 +27,15 @@ public class CoralSubsystem extends SubsystemBase {
   System.out.println("created coral subsystem");
   }
 
-  private final SparkMax angleMotor = new SparkMax(22, MotorType.kBrushless);
+  // Creating motor objects
+  // *** Need to find the device id for the TalonFX ***
+  private final TalonFX angleMotor = new TalonFX(45);
   private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
 
-  public SparkClosedLoopController angleController = angleMotor.getClosedLoopController();
+  // Create position torque and position voltage objects
+  private PositionVoltage angleMotor_positionVoltage = new PositionVoltage(0);
 
   private double coralAngle = 0;
-  private RelativeEncoder angleEncoder = angleMotor.getEncoder();
 
   /** Creates a new CoralSubsystem. */
   public CoralSubsystem() {
@@ -46,30 +53,50 @@ public class CoralSubsystem extends SubsystemBase {
     rollerConfig.voltageCompensation(10);
     rollerConfig.smartCurrentLimit(60);
     coralShooter.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    SparkMaxConfig angleConfig = new SparkMaxConfig();
-    angleConfig.idleMode(IdleMode.kBrake);
-    angleConfig.closedLoop.pid(0.1, 0, 0.005);
 
-    angleMotor.configure(angleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  
+    // reset to safe factory default parameters before setting new configuration
+    angleMotor.getConfigurator().apply(new TalonFXConfiguration());
+
+    /* Create and apply configuation for angle motor 
+     ****** Still need to set PID values ******
+    */
+    TalonFXConfiguration angleConfig = new TalonFXConfiguration();
+    angleConfig.Slot0.kP = 1; // An erro of 1 rotation results in a 0 V output
+    angleConfig.Slot0.kI = 0; // No output for integrate error
+    angleConfig.Slot0.kD = 0.1; // A velocity of 1 rotation results in a 0 V output
+    // Peak output of 8 V
+    angleConfig.Voltage.withPeakForwardVoltage(Volts.of(8))
+      .withPeakReverseVoltage(Volts.of(-8));
+
+      // set the neutral mode of the angle motor to brake
+      angleMotor.setNeutralMode(NeutralModeValue.Brake);
+
+      /* Retry config apply up to 5 times, report if failure */
+    StatusCode status = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status = angleMotor.getConfigurator().apply(angleConfig);
+      if (status.isOK()) break;
+    }
+    if (!status.isOK()) {
+      System.out.println("Could not apply configs, error code: " + status.toString());
+    }
+
+    /* Make sure we start at 0 */
+    angleMotor.setPosition(0);
   }
+  
 
+  // set the angle of the angle motor
   public void setCoralAngle(double coralAngle) {
     this.coralAngle = coralAngle;
-    angleController.setReference(coralAngle, SparkBase.ControlType.kPosition);
+    
+    // change motor position to the correct angle(while the button is being pressed down)
+    angleMotor_positionVoltage.withPosition(coralAngle);
   }
-
+  
   public double getCoralAngle() {
     return coralAngle;
   }
-
-  public boolean isAtCoralAngle() {
-    if((coralAngle - 1 < angleEncoder.getPosition()) && (angleEncoder.getPosition() < coralAngle + 1))
-      return true;
-    else 
-      return false;
-  }
-
 
   @Override
   public void periodic() {
