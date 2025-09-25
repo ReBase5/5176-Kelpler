@@ -109,10 +109,10 @@ public class RobotContainer
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private final SetElevatorPose setElevatorPoseZero = new SetElevatorPose(elevatorSubsystem, 0);
-  private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 57);
-  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 140);
+  private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 47.5);
+  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 75);
   //private final SetElevatorPose setElevatorPoseRecieve = new SetElevatorPose(elevatorSubsystem, 160);
-  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 285);
+  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 100);
 
   private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
   private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 2);
