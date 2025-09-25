@@ -113,9 +113,9 @@ public class RobotContainer
   //private final SetElevatorPose setElevatorPoseRecieve = new SetElevatorPose(elevatorSubsystem, 160);
   private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 10);
 
-
+  // These still need to be set - "coralAngle" = number of rotations
   private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
-  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 2);
+  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 1);
   private final SetCoralAngle setCoralAngleRecieve2 = new SetCoralAngle(coralSubsystem, 1.3);
   private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem,1);
 

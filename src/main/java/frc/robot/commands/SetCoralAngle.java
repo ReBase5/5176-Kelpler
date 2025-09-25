@@ -28,7 +28,6 @@ public class SetCoralAngle extends Command {
     addRequirements(coral);
   }
 
-//*************** */ Made it to here in my progress**********************
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
