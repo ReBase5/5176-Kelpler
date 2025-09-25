@@ -4,26 +4,12 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
-
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 
 
 /**
@@ -43,21 +29,6 @@ public class Robot extends TimedRobot
 
   private Timer disabledTimer;
 
-
-
-
-  private final TalonFX m_fx = new TalonFX(45, "rio");
-
-  /* Be able to switch which control request to use based on a button press */
-  /* Start at position 0, use slot 0 */
-  private final PositionVoltage m_positionVoltage = new PositionVoltage(0).withSlot(0);
-  /* Start at position 0, use slot 1 */
-  private final PositionTorqueCurrentFOC m_positionTorque = new PositionTorqueCurrentFOC(0).withSlot(1);
-  /* Keep a brake request so we can disable the motor */
-  private final NeutralOut m_brake = new NeutralOut();
-
-  private final XboxController operatorXbox = new XboxController(1);
-  private final XboxController driverXbox = new XboxController(0);
 
   public Robot()
   {
@@ -88,23 +59,8 @@ public class Robot extends TimedRobot
       DriverStation.silenceJoystickConnectionWarning(true);
     }
 
-    //positionconfig
-    TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
-    configs.Slot0.kI = 0; // No output for integrated error
-    configs.Slot0.kD = 0.2; // A velocity of 1 rps results in 0.1 V output
-    // Peak output of 8 V
-    configs.Voltage.withPeakForwardVoltage(Volts.of(8))
-      .withPeakReverseVoltage(Volts.of(-8));
-
-    configs.Slot1.kP = 60; // An error of 1 rotation results in 60 A output
-    configs.Slot1.kI = 0; // No output for integrated error
-    configs.Slot1.kD = 6; // A velocity of 1 rps results in 6 A output
-    // Peak output of 120 A
-    configs.TorqueCurrent.withPeakForwardTorqueCurrent(Amps.of(120))
-      .withPeakReverseTorqueCurrent(Amps.of(-120));
-
-    /* Retry config apply up to 5 times, report if failure */
+    /* Retry config apply up to 5 times, report if failure
+    // *** This could be useful later for angle talon fx ***
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
       status = m_fx.getConfigurator().apply(configs);
@@ -113,9 +69,10 @@ public class Robot extends TimedRobot
     if (!status.isOK()) {
       System.out.println("Could not apply configs, error code: " + status.toString());
     }
+    */
+
 
     /* Make sure we start at 0 */
-    m_fx.setPosition(0);
 
 
     //velocityconfig
@@ -232,21 +189,6 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
-    double desiredRotations = operatorXbox.getLeftY() * 10; // Go for plus/minus 10 rotations
-    if (Math.abs(desiredRotations) <= 0.1) { // Joystick deadzone
-      desiredRotations = 0;
-    }
-
-    if (operatorXbox.getLeftBumperButton()) {
-      // Use position voltage 
-      m_fx.setControl(m_positionVoltage.withPosition(1)); //placeholder by mason, replace when tuning
-    } else if (operatorXbox.getRightBumperButton()) {
-      // Use position torque 
-      m_fx.setControl(m_positionTorque.withPosition(2)); //placeholder by mason, replace when tuning
-    } else {
-      // Disable the motor instead
-      m_fx.setControl(m_brake);
-    }
 
 
     /*if (m_joystick.getLeftBumperButton()) {
@@ -307,7 +249,7 @@ public class Robot extends TimedRobot
   }
 
   /**
-   * This function is called periodically whilst in simulation.
+   * This function is called periodically while in simulation.
    */
   @Override
   public void simulationPeriodic()
