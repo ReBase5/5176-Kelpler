@@ -10,15 +10,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class DeepClimbCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DeepClimbSubsystem m_subsystem;
+  private final DeepClimbSubsystem deepClimbSubsystem;
+  double deepClimbInterval;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DeepClimbCommand(DeepClimbSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public DeepClimbCommand(double deepClimbInterval, DeepClimbSubsystem subsystem) {
+    this.deepClimbSubsystem = subsystem;
+    this.deepClimbInterval = deepClimbInterval;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -28,9 +30,8 @@ public class DeepClimbCommand extends Command {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    
+  public void setClimbPosition() {
+    deepClimbSubsystem.setDeepClimbPosition(deepClimbInterval);
   }
 
   // Called once the command ends or is interrupted.

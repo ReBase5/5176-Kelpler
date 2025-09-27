@@ -79,11 +79,15 @@ public class DeepClimbSubsystem extends SubsystemBase {
         });
   }
 
-  public void setDeepClimbPush(double deepClimbInterval) {
+  public void setDeepClimbPosition(double deepClimbInterval) {
     // This method will be called once per scheduler run
-    deepClimbRotations += deepClimbInterval;
-    deepClimbLeader.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations));
-    deepClimbFollower.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations * -1.0));
+    if(deepClimbRotations >= 0 && deepClimbRotations <= 100){
+      deepClimbRotations += deepClimbInterval;
+      if(deepClimbRotations >= 0 && deepClimbRotations <= 100){
+        deepClimbLeader.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations));
+        deepClimbFollower.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations * -1.0));
+      }
+    }
   }
 
   @Override
