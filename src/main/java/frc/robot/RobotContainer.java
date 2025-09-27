@@ -23,10 +23,12 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetCoralAngle;
 import frc.robot.commands.SetElevatorPose;
 import frc.robot.commands.CoralShooterCommand;
+import frc.robot.commands.DeepClimbCommand;
 //import frc.robot.commands.AlgaeShooterCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 //import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.DeepClimbSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -42,7 +44,8 @@ public class RobotContainer
   private final CoralSubsystem coralSubsystem = new CoralSubsystem();
   //private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
 
-  //Coral angle subsystem created
+  //Deep climb subsystem
+  private final DeepClimbSubsystem deepClimbSubsystem = new DeepClimbSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
@@ -129,6 +132,10 @@ public class RobotContainer
   private final CoralShooterCommand coralShoot = new CoralShooterCommand(0.3, 0, coralSubsystem); //good one
   private final CoralShooterCommand stopCoralShoot = new CoralShooterCommand(0, 0, coralSubsystem);
   private final CoralShooterCommand coralIntake = new CoralShooterCommand(0, 0.3, coralSubsystem);
+
+  //setting the deep climb command
+  private final DeepClimbCommand setDeepClimbPush = new DeepClimbCommand(20, deepClimbSubsystem);
+  private final DeepClimbCommand setDeepClimbPull = new DeepClimbCommand(-20,deepClimbSubsystem);
   
   //private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(0, 2, algaeSubsystem);
   //private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);
@@ -153,6 +160,7 @@ public class RobotContainer
     NamedCommands.registerCommand("coralShoot", coralShoot);
     NamedCommands.registerCommand("stopCoralShoot", stopCoralShoot);
     NamedCommands.registerCommand("coralIntake", coralIntake);
+    NamedCommands.registerCommand("setDeepClimbPush", setDeepClimbPush);
     //NamedCommands.registerCommand("algaeShoot", algaeShoot);
     //NamedCommands.registerCommand("stopAlgaeShoot", stopAlgaeShoot);
     //NamedCommands.registerCommand("shootBackward", shootBackward);
@@ -252,11 +260,15 @@ public class RobotContainer
       
       //operatorXbox.rightBumper().onTrue(setAlgaeAngleUp);
       //operatorXbox.rightBumper().onFalse(setAlgaeAngleDown);
-
+      
       operatorXbox.start().onTrue(coralShoot);
       operatorXbox.start().onFalse(stopCoralShoot);
       operatorXbox.back().onTrue(coralIntake);
       operatorXbox.back().onFalse(stopCoralShoot);
+
+      // need to find teh correct values for setting the deep climb angle
+      operatorXbox.rightTrigger().onTrue(setDeepClimbPush);
+      operatorXbox.leftTrigger().onTrue(setDeepClimbPull);
 
       //operatorXbox.back().onTrue(algaeShoot);
       //operatorXbox.back().onFalse(stopAlgaeShoot);
