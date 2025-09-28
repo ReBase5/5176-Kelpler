@@ -12,7 +12,6 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DeepClimbSubsystem extends SubsystemBase {
@@ -30,7 +29,7 @@ public class DeepClimbSubsystem extends SubsystemBase {
 
     /** Creates a new DeepClimbSubsystem. */
     public DeepClimbSubsystem() {
-            // reset to safe factory default parameters before setting new configuration
+        // reset to safe factory default parameters before setting new configuration
         deepClimbLeader.getConfigurator().apply(new TalonFXConfiguration());
         deepClimbFollower.getConfigurator().apply(new TalonFXConfiguration());
 
@@ -65,19 +64,6 @@ public class DeepClimbSubsystem extends SubsystemBase {
         deepClimbLeader.setPosition(0);
         deepClimbFollower.setPosition(0);
     }
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
 
   public void setDeepClimbPosition(double deepClimbInterval) {
     deepClimbRotations += deepClimbInterval;
