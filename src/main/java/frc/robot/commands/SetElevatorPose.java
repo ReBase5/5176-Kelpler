@@ -12,8 +12,6 @@ public class SetElevatorPose extends Command {
   private ElevatorSubsystem elevator;
   private double setPoint;
 
-
-
   /** Creates a new SetelevatorPose. */
   public SetElevatorPose(ElevatorSubsystem elevatorSubsystem, double setPoint) {
     this.elevator = elevatorSubsystem;
@@ -27,14 +25,6 @@ public class SetElevatorPose extends Command {
   public void initialize() {
     elevator.setElevatorPose(setPoint);
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
