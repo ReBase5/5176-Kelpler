@@ -23,20 +23,11 @@ public class CoralCommand extends Command {
     addRequirements(this.coralSubsystem);
   }
 
-  @Override
-  public void initialize() {
-  }
-
   // Runs every cycle while the command is scheduled (~50 times per second)
   @Override
   public void execute() {
     // Run the roller motor at the desired speed
     coralSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-  }
-
-  // Runs each time the command ends via isFinished or being interrupted.
-  @Override
-  public void end(boolean isInterrupted) {
   }
 
   // Runs every cycle while the command is scheduled to check if the command is

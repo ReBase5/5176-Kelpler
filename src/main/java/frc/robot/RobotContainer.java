@@ -161,6 +161,7 @@ public class RobotContainer
     NamedCommands.registerCommand("stopCoralShoot", stopCoralShoot);
     NamedCommands.registerCommand("coralIntake", coralIntake);
     NamedCommands.registerCommand("setDeepClimbPush", setDeepClimbPush);
+    NamedCommands.registerCommand("setDeepClimbPull", setDeepClimbPull);
     //NamedCommands.registerCommand("algaeShoot", algaeShoot);
     //NamedCommands.registerCommand("stopAlgaeShoot", stopAlgaeShoot);
     //NamedCommands.registerCommand("shootBackward", shootBackward);

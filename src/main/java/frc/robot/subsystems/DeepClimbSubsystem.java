@@ -30,7 +30,7 @@ public class DeepClimbSubsystem extends SubsystemBase {
 
     /** Creates a new DeepClimbSubsystem. */
     public DeepClimbSubsystem() {
-            // reset to safe factory default parameters before setting new configuration
+        // reset to safe factory default parameters before setting new configuration
         deepClimbLeader.getConfigurator().apply(new TalonFXConfiguration());
         deepClimbFollower.getConfigurator().apply(new TalonFXConfiguration());
 
