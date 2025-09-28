@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.Constants;
 
-// "() <-", or lambda function, allows to put in a method value where otherwise unable
+// "() ->", or lambda function, allows to put in a method value where otherwise unable
 
 public class KelplerCommands {
     //deep climb commands
@@ -38,6 +38,6 @@ public class KelplerCommands {
         new InstantCommand(() -> Robot.coralSubsystem.setCoralAngle(Constants.CoralConstants.CORAL_SHOOT_ANGLE), Robot.coralSubsystem), 
         new InstantCommand(() -> Robot.elevator.setElevatorPose(Constants.ElevatorConstants.ELEVATOR_HIGH_GOAL), Robot.elevator)
     );
-    //many other cool possiblities with "WaitUntilCommand"
+    //many other cool possibilities with "WaitUntilCommand"
     //many other cool possibilities with limit switches
 }
