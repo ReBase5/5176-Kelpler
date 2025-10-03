@@ -134,8 +134,8 @@ public class RobotContainer
   private final CoralShooterCommand coralIntake = new CoralShooterCommand(0, 0.3, coralSubsystem);
 
   //setting the deep climb command
-  private final DeepClimbCommand setDeepClimbPush = new DeepClimbCommand(20, deepClimbSubsystem);
-  private final DeepClimbCommand setDeepClimbPull = new DeepClimbCommand(-20,deepClimbSubsystem);
+  private final DeepClimbCommand setDeepClimbPush = new DeepClimbCommand(1, deepClimbSubsystem);
+  private final DeepClimbCommand setDeepClimbPull = new DeepClimbCommand(-1,deepClimbSubsystem);
   
   //private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(0, 2, algaeSubsystem);
   //private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);

@@ -19,8 +19,8 @@ public class DeepClimbSubsystem extends SubsystemBase {
   
   //placeholder device IDs
   // Creating Motor controller objects
-  private final TalonFX deepClimbLeader = new TalonFX(1);
-  private final TalonFX deepClimbFollower = new TalonFX(2);
+  private final TalonFX deepClimbLeader = new TalonFX(10);
+  private final TalonFX deepClimbFollower = new TalonFX(11);
 
   private final PositionVoltage deepClimbPositionVoltage = new PositionVoltage(0);
 
@@ -70,10 +70,10 @@ public class DeepClimbSubsystem extends SubsystemBase {
     if(deepClimbRotations < 0){
       deepClimbRotations = 0;
     }
-    if(deepClimbRotations > 100){
-      deepClimbRotations = 100;
+    if(deepClimbRotations > 10){
+      deepClimbRotations = 10;
     }
-    if(deepClimbRotations >= 0 && deepClimbRotations <= 100){
+    if(deepClimbRotations >= 0 && deepClimbRotations <= 10){
     deepClimbLeader.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations));
     deepClimbFollower.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations * -1.0));
     }
