@@ -52,8 +52,8 @@ public final class Constants
     public static final double CORAL_EJECT_VALUE_FAST = 0.44;
     public static final double CORAL_EJECT_VALUE_SLOW = 0.22;
 
-    public static final double CORAL_SHOOT_ANGLE = 0;
-    public static final double CORAL_RECIEVE_ANGLE = 0;
+    public static final double CORAL_SHOOT_ANGLE = 0;  //set me!
+    public static final double CORAL_RECIEVE_ANGLE = 0;//set me!
   }
   public static final class ElevatorConstants {
     public static final double ELEVATOR_ZERO_GOAL = 0;
