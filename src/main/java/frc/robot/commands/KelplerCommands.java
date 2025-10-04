@@ -11,22 +11,22 @@ import frc.robot.Constants;
 
 public class KelplerCommands {
     //deep climb commands
-    public static final Command setDeepClimbPush = new RunCommand(() -> Robot.deepClimb.setDeepClimbPosition(20), Robot.deepClimb);
-    public static final Command setDeepClimbPull = new RunCommand(() -> Robot.deepClimb.setDeepClimbPosition(-20), Robot.deepClimb);
+    public static final Command setDeepClimbPush = new InstantCommand(() -> Robot.deepClimb.setDeepClimbPosition(2), Robot.deepClimb);
+    public static final Command setDeepClimbPull = new InstantCommand(() -> Robot.deepClimb.setDeepClimbPosition(-2), Robot.deepClimb);
 
     //elevator commands
-    public static final Command setElevatorLowGoal = new RunCommand(
+    public static final Command setElevatorLowGoal = new InstantCommand(
         () -> Robot.elevator.setElevatorPose(Constants.ElevatorConstants.ELEVATOR_LOW_GOAL), Robot.elevator);
-    public static final Command setElevatorMidGoal = new RunCommand(
+    public static final Command setElevatorMidGoal = new InstantCommand(
         () -> Robot.elevator.setElevatorPose(Constants.ElevatorConstants.ELEVATOR_MID_GOAL), Robot.elevator);
-    public static final Command setElevatorHighGoal = new RunCommand(
+    public static final Command setElevatorHighGoal = new InstantCommand(
         () -> Robot.elevator.setElevatorPose(Constants.ElevatorConstants.ELEVATOR_HIGH_GOAL), Robot.elevator);
 
     //coral angle commands 
     //still need to set angles in the Constants file
-    public static final Command setCoralAngleRecieve = new RunCommand(
+    public static final Command setCoralAngleRecieve = new InstantCommand(
         () -> Robot.coralSubsystem.setCoralAngle(Constants.CoralConstants.CORAL_RECIEVE_ANGLE), Robot.coralSubsystem);
-    public static final Command setCoralAngleShoot = new RunCommand(
+    public static final Command setCoralAngleShoot = new InstantCommand(
         () -> Robot.coralSubsystem.setCoralAngle(Constants.CoralConstants.CORAL_SHOOT_ANGLE), Robot.coralSubsystem);
 
     //coral shooter commands

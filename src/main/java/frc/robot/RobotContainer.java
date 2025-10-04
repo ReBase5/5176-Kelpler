@@ -13,22 +13,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
-// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-//import frc.robot.commands.SetAlgaeAngle;
-import frc.robot.commands.SetCoralAngle;
-import frc.robot.commands.SetElevatorPose;
-import frc.robot.commands.CoralShooterCommand;
-import frc.robot.commands.DeepClimbCommand;
-//import frc.robot.commands.AlgaeShooterCommand;
-import frc.robot.subsystems.ElevatorSubsystem;
-//import frc.robot.subsystems.AlgaeSubsystem;
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.DeepClimbSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -38,23 +27,15 @@ import swervelib.SwerveInputStream;
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
  * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
+@SuppressWarnings("unused")
 public class RobotContainer
 {
-  //Coral shooting subsystem created
-  private final CoralSubsystem coralSubsystem = new CoralSubsystem();
-  //private final AlgaeSubsystem algaeSubsystem = new AlgaeSubsystem();
-
-  //Deep climb subsystem
-  private final DeepClimbSubsystem deepClimbSubsystem = new DeepClimbSubsystem();
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final         CommandXboxController operatorXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
-
-  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -109,68 +90,6 @@ public class RobotContainer
   // The autonomous chooser
   // private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  // changed the goals on the elevator to be very low. Gear ratio was changed so we need to find the new goals.
-  private final SetElevatorPose setElevatorPoseZero = new SetElevatorPose(elevatorSubsystem, 0);
-  private final SetElevatorPose setElevatorPoseLowGoal = new SetElevatorPose(elevatorSubsystem, 47.5);
-  private final SetElevatorPose setElevatorPoseMediumGoal = new SetElevatorPose(elevatorSubsystem, 75);
-  //private final SetElevatorPose setElevatorPoseRecieve = new SetElevatorPose(elevatorSubsystem, 160);
-  private final SetElevatorPose setElevatorPoseHighGoal = new SetElevatorPose(elevatorSubsystem, 100);
-  
-  // These still need to be set - "coralAngle" = number of rotations
-  // private final SetCoralAngle setCoralAngleZero = new SetCoralAngle(coralSubsystem, 0);
-  private final SetCoralAngle setCoralAngleRecieve = new SetCoralAngle(coralSubsystem, 1);
-  private final SetCoralAngle setCoralAngleRecieve2 = new SetCoralAngle(coralSubsystem, 1.3);
-  private final SetCoralAngle setCoralAngleShoot = new SetCoralAngle(coralSubsystem,1);
-
-  //private final SetAlgaeAngle setAlgaeAngleUp = new SetAlgaeAngle(algaeSubsystem, 0);
-  //private final SetAlgaeAngle setAlgaeAngleDown = new SetAlgaeAngle(algaeSubsystem, 10);
-
- //private  double forwardholder = 5.0;
- //private  double nullHolder = 0.0;
-  //private final ShooterCommand shoot = new ShooterCommand(forwardholder, nullHolder, coralSubsystem);
-  //private final ShooterCommand shoot = new ShooterCommand(operatorXbox.getLeftY(), 0, coralSubsystem);
-  private final CoralShooterCommand coralShoot = new CoralShooterCommand(0.3, 0, coralSubsystem); //good one
-  private final CoralShooterCommand stopCoralShoot = new CoralShooterCommand(0, 0, coralSubsystem);
-  private final CoralShooterCommand coralIntake = new CoralShooterCommand(0, 0.3, coralSubsystem);
-
-  //setting the deep climb command
-  private final DeepClimbCommand setDeepClimbPush = new DeepClimbCommand(20, deepClimbSubsystem);
-  private final DeepClimbCommand setDeepClimbPull = new DeepClimbCommand(-20,deepClimbSubsystem);
-  
-  //private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(0, 2, algaeSubsystem);
-  //private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);
-
-  //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
-
-  //ivate final ShooterCommand activateShooter
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer()
-  {
-    //NamedCommands.registerCommand("setAlgaeAngleUp", setAlgaeAngleUp);
-    //NamedCommands.registerCommand("setAlgaeAngleDown", setAlgaeAngleDown);
-    NamedCommands.registerCommand("setCoralAngleRecieve", setCoralAngleRecieve);
-    NamedCommands.registerCommand("setCoralAngleShoot", setCoralAngleShoot);
-    NamedCommands.registerCommand("setElevatorPoseZero", setElevatorPoseZero);
-    NamedCommands.registerCommand("setElevatorPoseLowGoal", setElevatorPoseLowGoal);
-    NamedCommands.registerCommand("setElevatorPoseMediumGoal", setElevatorPoseMediumGoal);
-    //NamedCommands.registerCommand("setElevatorPoseRecieve", setElevatorPoseRecieve);
-    NamedCommands.registerCommand("setElevatorPoseHighGoal", setElevatorPoseHighGoal);
-    NamedCommands.registerCommand("coralShoot", coralShoot);
-    NamedCommands.registerCommand("stopCoralShoot", stopCoralShoot);
-    NamedCommands.registerCommand("coralIntake", coralIntake);
-    NamedCommands.registerCommand("setDeepClimbPush", setDeepClimbPush);
-    NamedCommands.registerCommand("setDeepClimbPull", setDeepClimbPull);
-    //NamedCommands.registerCommand("algaeShoot", algaeShoot);
-    //NamedCommands.registerCommand("stopAlgaeShoot", stopAlgaeShoot);
-    //NamedCommands.registerCommand("shootBackward", shootBackward);
-
-    // Configure the trigger bindings
-    configureBindings();
-    DriverStation.silenceJoystickConnectionWarning(true);
-    //NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-  }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -179,6 +98,7 @@ public class RobotContainer
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
+  @SuppressWarnings("unused")
   private void configureBindings()
   {
     // Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
@@ -242,70 +162,6 @@ public class RobotContainer
       driverXbox.back().whileTrue(Commands.none());
       //driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
-
-      operatorXbox.a().onTrue(setElevatorPoseZero);
-      operatorXbox.b().onTrue(setElevatorPoseLowGoal);
-      operatorXbox.x().onTrue(setElevatorPoseHighGoal);
-      operatorXbox.y().onTrue(setElevatorPoseMediumGoal);
-      //operatorXbox.back().onTrue(setElevatorPoseRecieve);
-      
-     
-      // need to find the correct values for setting the coral angle - Can be found by scrolling up
-      operatorXbox.leftBumper().onTrue(setCoralAngleRecieve);
-      //operatorXbox.leftStick().onTrue(setElevatorPoseRecieve);
-      operatorXbox.leftBumper().onFalse(setCoralAngleShoot);
-      operatorXbox.rightBumper().onTrue(setCoralAngleRecieve2);
-      operatorXbox.rightBumper().onFalse(setCoralAngleShoot);
-      
-      //operatorXbox.rightBumper().onTrue(setAlgaeAngleUp);
-      //operatorXbox.rightBumper().onFalse(setAlgaeAngleDown);
-      
-      operatorXbox.start().onTrue(coralShoot);
-      operatorXbox.start().onFalse(stopCoralShoot);
-      operatorXbox.back().onTrue(coralIntake);
-      operatorXbox.back().onFalse(stopCoralShoot);
-
-      // need to find teh correct values for setting the deep climb angle
-      operatorXbox.rightTrigger().onTrue(setDeepClimbPush);
-      operatorXbox.leftTrigger().onTrue(setDeepClimbPull);
-
-      //operatorXbox.back().onTrue(algaeShoot);
-      //operatorXbox.back().onFalse(stopAlgaeShoot);
-
-      
-      //if(operatorXbox.getLeftY() > 0) {
-        //operatorXbox.leftStick().whileTrue(shoot);
-      //}
-      //else {
-        //operatorXbox.leftStick().whileTrue(shootBackward);
-      //}
-      //operatorXbox.rightBumper().whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
     }
-    // Insert controller bindings for coral shooter
-   //operatorXbox.rightBumper().whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_FAST, () -> 0, coralSubsystem));
-   //operatorXbox.rightBumper().onFalse(new CoralCommand(() -> 0, () -> 0, coralSubsystem)); 
-   //.whileTrue(coralSubsystem.runRoller(CoralConstants.CORAL_EJECT_VALUE_FAST, 0));
-        //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_FAST, coralSubsystem));
-
-  //operatorXbox.rightStick()
-      //.whileTrue(coralSubsystem.runRoller(0, CoralConstants.CORAL_EJECT_VALUE_FAST));
-        //.whileTrue(new CoralCommand(() -> CoralConstants.CORAL_EJECT_VALUE_SLOW, () -> 0, coralSubsystem));
-        //.whileTrue(new CoralCommand(() -> Constants.CoralConstants.CORAL_EJECT_VALUE_SLOW, coralSubsystem));
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand()
-  {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("CentralShoot");
-  }
-
-  public void setMotorBrake(boolean brake)
-  {
-    drivebase.setMotorBrake(brake);
   }
 }
