@@ -27,7 +27,6 @@ public class CoralSubsystem extends SubsystemBase {
   }
 
   // Creating motor objects
-  // *** Need to find the device id for the TalonFX ***
   private final TalonFX angleMotor = new TalonFX(45);
   private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
 
@@ -80,7 +79,7 @@ public class CoralSubsystem extends SubsystemBase {
       System.out.println("Could not apply configs, error code: " + status.toString());
     }
 
-    /* Make sure we start at 0 */
+    /* Set starting position to 0 */
     angleMotor.setPosition(0);
   }
   
