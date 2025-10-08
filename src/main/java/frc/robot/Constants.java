@@ -32,16 +32,12 @@ public final class Constants
 //    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
 //  }
 
-  public static final class DrivebaseConstants
-  {
-
+  public static final class DrivebaseConstants {
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
-  public static class OperatorConstants
-  {
-
+  public static class OperatorConstants {
     // Joystick Deadband
     public static final double DEADBAND        = 0.1;
     public static final double LEFT_Y_DEADBAND = 0.1;
@@ -55,5 +51,20 @@ public final class Constants
     public static final double CORAL_MOTOR_VOLTAGE_COMP = 10;
     public static final double CORAL_EJECT_VALUE_FAST = 0.44;
     public static final double CORAL_EJECT_VALUE_SLOW = 0.22;
+
+    public static final double CORAL_SHOOT_ANGLE = 0;  //set me!
+    public static final double CORAL_RECIEVE_ANGLE = 0;//set me!
+  }
+  public static final class ElevatorConstants {
+    public static final double ELEVATOR_ZERO_GOAL = 0;
+    public static final double ELEVATOR_LOW_GOAL = 47.5;
+    public static final double ELEVATOR_MID_GOAL = 75;
+    public static final double ELEVATOR_HIGH_GOAL = 100;
+  }
+  public static final class AlgaeConstants {
+    public static final double CLEAR_ALGAE_ANGLE = 0.2;
+    public static final double ELEVATOR_CLEAR_ALGAE_LOW = 45;
+    public static final double ELEVATOR_CLEAR_ALGAE_MID = 72.5;
+    public static final double ELEVATOR_CLEAR_ALGAE_HIGH = 98.5;
   }
 }
