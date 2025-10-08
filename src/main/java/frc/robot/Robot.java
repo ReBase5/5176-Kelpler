@@ -9,25 +9,27 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.commands.IO;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.DeepClimbSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
  * described in the TimedRobot documentation. If you change the name of this class or the package after creating this
  * project, you must also update the build.gradle file in the project.
  */
-public class Robot extends TimedRobot
-{
+public class Robot extends TimedRobot {
+  private Command m_autonomousCommand;
+  private static Robot instance;
+
+  public static DeepClimbSubsystem deepClimb = new DeepClimbSubsystem();
+  public static ElevatorSubsystem elevator = new ElevatorSubsystem();
+  public static CoralSubsystem coralSubsystem = new CoralSubsystem();
+  public static IO io = new IO();
   
-  private static Robot   instance;
-  private        Command m_autonomousCommand;
-
-  private RobotContainer m_robotContainer;
-
-  //private final CoralSubsystem coralSubsystem = new CoralSubsystem();
 
   private Timer disabledTimer;
-
 
   public Robot()
   {
@@ -47,7 +49,6 @@ public class Robot extends TimedRobot
   {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
@@ -125,7 +126,6 @@ public class Robot extends TimedRobot
   @Override
   public void disabledInit()
   {
-    m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
   }
@@ -135,7 +135,6 @@ public class Robot extends TimedRobot
   {
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
-      m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
       disabledTimer.reset();
     }
@@ -147,9 +146,6 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit()
   {
-    m_robotContainer.setMotorBrake(true);
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null)
     {
