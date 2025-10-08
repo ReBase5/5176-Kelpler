@@ -21,6 +21,7 @@ public class IO {
     JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl.......X
     JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 3);//XboxControl.....Y
     JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 2);//XboxControl........B
+    JoystickButton elevatorZeroButton = new JoystickButton(operatorXbox, 1);//                  A
 
     JoystickButton angleShootButton = new JoystickButton(operatorXbox, 6);//XboxControl.........Right Bumper   
     JoystickButton angleReceiveButton = new JoystickButton(operatorXbox, 5);//XboxControl.......Left Bumper
@@ -42,10 +43,12 @@ public class IO {
         elevatorHighButton.onTrue(KelplerCommands.setElevatorHighGoal);
         elevatorMediumButton.onTrue(KelplerCommands.setElevatorMidGoal);
         elevatorLowButton.onTrue(KelplerCommands.setElevatorLowGoal);
+        elevatorZeroButton.onTrue(KelplerCommands.setElevatorZeroGoal);
 
         // buttons to set shoot and receive angles
         angleShootButton.onTrue(KelplerCommands.setCoralAngleShoot);
         angleReceiveButton.onTrue(KelplerCommands.setCoralAngleRecieve);
+        angleBlockedReceiveButton.onTrue(KelplerCommands.setCoralAngleRecieve2);
 
         // buttons to remove algae -- command groups, no need to set elevator height or coral angle
         algaeL2Remove.onTrue(KelplerCommands.removeL2Algae);

@@ -54,6 +54,7 @@ public final class Constants
 
     public static final double CORAL_SHOOT_ANGLE = 0;  //set me!
     public static final double CORAL_RECIEVE_ANGLE = 0;//set me!
+    public static final double CORAL_RECIEVE_ANGLE2 = 0; //set me!
   }
   public static final class ElevatorConstants {
     public static final double ELEVATOR_ZERO_GOAL = 0;
@@ -62,8 +63,11 @@ public final class Constants
     public static final double ELEVATOR_HIGH_GOAL = 100;
   }
   public static final class AlgaeConstants {
-    public static final double CLEAR_ALGAE_ANGLE = 0.2;
-    public static final double ELEVATOR_CLEAR_ALGAE_L2 = 45;
-    public static final double ELEVATOR_CLEAR_ALGAE_L3 = 72.5;
+    public static final double CLEAR_ALGAE_ANGLE = 0.5; //set me!
+    public static final double ELEVATOR_CLEAR_ALGAE_L2 = 45; //set me!
+    public static final double ELEVATOR_CLEAR_ALGAE_L3 = 72.5; //set me!
+  }
+  public static final class DeepClimbConstants {
+    public static final double DEEP_CLIMB_PUSH_INTERVAL = 2.5;//set me!
   }
 }
