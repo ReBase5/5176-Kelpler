@@ -28,7 +28,7 @@ public class IO {
     Trigger algaeL3Remove = new Trigger(() -> operatorXbox.getPOV() == 270);
 
     Trigger deepClimbPushButton = new Trigger(() -> driverXbox.getPOV() == 90);//XboxControl.................D-pad Up
-    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxContro.................D-pad Down
+    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxControl.................D-pad Down
 
     public IO() {
 
