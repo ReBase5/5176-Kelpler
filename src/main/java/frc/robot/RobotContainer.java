@@ -90,6 +90,18 @@ public class RobotContainer
   // The autonomous chooser
   // private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+  
+  //private final AlgaeShooterCommand algaeShoot = new AlgaeShooterCommand(0, 2, algaeSubsystem);
+  //private final AlgaeShooterCommand stopAlgaeShoot = new AlgaeShooterCommand(0, 0, algaeSubsystem);
+
+  //private final ShooterCommand shootBackward = new ShooterCommand(0.0, 5.0, coralSubsystem);
+
+  //ivate final ShooterCommand activateShooter
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  public RobotContainer()
+  {}
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
