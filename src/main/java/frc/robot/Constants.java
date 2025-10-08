@@ -63,8 +63,7 @@ public final class Constants
   }
   public static final class AlgaeConstants {
     public static final double CLEAR_ALGAE_ANGLE = 0.2;
-    public static final double ELEVATOR_CLEAR_ALGAE_LOW = 45;
-    public static final double ELEVATOR_CLEAR_ALGAE_MID = 72.5;
-    public static final double ELEVATOR_CLEAR_ALGAE_HIGH = 98.5;
+    public static final double ELEVATOR_CLEAR_ALGAE_L2 = 45;
+    public static final double ELEVATOR_CLEAR_ALGAE_L3 = 72.5;
   }
 }

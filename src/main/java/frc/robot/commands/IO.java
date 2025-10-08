@@ -3,6 +3,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 //button numbers on the controller:
 // https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.chiefdelphi.com%2Ft%2Fhow-to-program-an-xbox-controller-to-drive-a-robot%2F131164&psig=AOvVaw28II86to-llZYujh--NhGp&ust=1759627474419000&source=images&cd=vfe&opi=89978449&ved=0CBkQjhxqFwoTCIC8oKaxiZADFQAAAAAdAAAAABAE
@@ -12,18 +13,22 @@ public class IO {
     public XboxController driverXbox = new XboxController(0);
     public XboxController operatorXbox = new XboxController(1);
 
-    JoystickButton shootButton = new JoystickButton(operatorXbox, 0);//XboxControl:            (set me! Use the link above)
-    JoystickButton recieveButton = new JoystickButton(operatorXbox, 0); //XboxControl:         (set me! Use the link above)
+    Trigger shootButton = new Trigger(() -> operatorXbox.getRightTriggerAxis() > 0.9);//XboxControl..........Right Trigger
+    Trigger recieveButton = new Trigger(() -> operatorXbox.getLeftTriggerAxis() > 0.9); //XboxControl........Left Trigger
     
-    JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 1);//XboxControl:      A
-    JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 2);//XboxControl:    B
-    JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 4);//XboxControl:       Y
+    JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl:......X
+    JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 3);//XboxControl.....Y
+    JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 2);//XboxControl........B
 
-    JoystickButton angleShootButton = new JoystickButton(operatorXbox, 0);//XboxControl:        (set me! Use the link above)   
-    JoystickButton angleRecieveButton = new JoystickButton(operatorXbox, 0);//XboxControl:      (set me! Use the link above)
+    JoystickButton angleShootButton = new JoystickButton(operatorXbox, 6);//XboxControl.........Right Bumper   
+    JoystickButton angleReceiveButton = new JoystickButton(operatorXbox, 5);//XboxControl.......Left Bumper
+    Trigger angleBlockedReceiveButton = new Trigger(() -> operatorXbox.getPOV() == 180);//XboxControl........D-pad Left
 
-    JoystickButton deepClimbPushButton = new JoystickButton(operatorXbox, 0);//XboxControl:     (set me! Use the link above)
-    JoystickButton deepClimbPullButton = new JoystickButton(operatorXbox, 0);//XboxControl:     (set me! Use the link above)
+    Trigger algaeL2Remove = new Trigger(() -> operatorXbox.getPOV() == 90);
+    Trigger algaeL3Remove = new Trigger(() -> operatorXbox.getPOV() == 270);
+
+    Trigger deepClimbPushButton = new Trigger(() -> driverXbox.getPOV() == 90);//XboxControl.................D-pad Up
+    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxControl.................D-pad Down
 
     public IO() {
 
@@ -38,7 +43,11 @@ public class IO {
 
         // buttons to set shoot and receive angles
         angleShootButton.onTrue(KelplerCommands.setCoralAngleShoot);
-        angleRecieveButton.onTrue(KelplerCommands.setCoralAngleRecieve);
+        angleReceiveButton.onTrue(KelplerCommands.setCoralAngleRecieve);
+
+        // buttons to remove algae -- command groups, no need to set elevator height or coral angle
+        algaeL2Remove.onTrue(KelplerCommands.removeL2Algae);
+        algaeL3Remove.onTrue(KelplerCommands.removeL3Algae);
 
         // buttons to control climb motors
         deepClimbPushButton.onTrue(KelplerCommands.setDeepClimbPush);
