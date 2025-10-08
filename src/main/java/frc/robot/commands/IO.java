@@ -13,10 +13,12 @@ public class IO {
     public XboxController driverXbox = new XboxController(0);
     public XboxController operatorXbox = new XboxController(1);
 
+    // Trigger objects created for axis and joystickbutton objects created for regualar buttons.
+    // POV is the D-Pad 0 is right, 90 is up, 180 is left, 270 is down
     Trigger shootButton = new Trigger(() -> operatorXbox.getRightTriggerAxis() > 0.9);//XboxControl..........Right Trigger
     Trigger recieveButton = new Trigger(() -> operatorXbox.getLeftTriggerAxis() > 0.9); //XboxControl........Left Trigger
     
-    JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl:......X
+    JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl.......X
     JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 3);//XboxControl.....Y
     JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 2);//XboxControl........B
 
@@ -24,11 +26,11 @@ public class IO {
     JoystickButton angleReceiveButton = new JoystickButton(operatorXbox, 5);//XboxControl.......Left Bumper
     Trigger angleBlockedReceiveButton = new Trigger(() -> operatorXbox.getPOV() == 180);//XboxControl........D-pad Left
 
-    Trigger algaeL2Remove = new Trigger(() -> operatorXbox.getPOV() == 90);
-    Trigger algaeL3Remove = new Trigger(() -> operatorXbox.getPOV() == 270);
+    Trigger algaeL2Remove = new Trigger(() -> operatorXbox.getPOV() == 90);//XboxControl.....................D-pad Up(operator controller)
+    Trigger algaeL3Remove = new Trigger(() -> operatorXbox.getPOV() == 270);//XboxControl....................D-pad Down(operator controller)
 
-    Trigger deepClimbPushButton = new Trigger(() -> driverXbox.getPOV() == 90);//XboxControl.................D-pad Up
-    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxControl.................D-pad Down
+    Trigger deepClimbPushButton = new Trigger(() -> driverXbox.getPOV() == 90);//XboxControl.................D-pad Up(driver controller)
+    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxControl................D-pad Down(driver controller)
 
     public IO() {
 
