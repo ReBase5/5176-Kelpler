@@ -30,8 +30,8 @@ public class IO {
     Trigger algaeL2Remove = new Trigger(() -> operatorXbox.getPOV() == 90);//XboxControl.....................D-pad Up(operator controller)
     Trigger algaeL3Remove = new Trigger(() -> operatorXbox.getPOV() == 270);//XboxControl....................D-pad Down(operator controller)
 
-    Trigger deepClimbPushButton = new Trigger(() -> driverXbox.getPOV() == 90);//XboxControl.................D-pad Up(driver controller)
-    Trigger deepClimbPullButton = new Trigger(() -> driverXbox.getPOV() == 270);//XboxControl................D-pad Down(driver controller)
+    JoystickButton deepClimbPushButton = new JoystickButton(operatorXbox,9);//XboxControl.................Left stick down(driver controller)
+    JoystickButton deepClimbPullButton = new JoystickButton(operatorXbox,10);//XboxControl................Right stick down(driver controller)
 
     public IO() {
 
