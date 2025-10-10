@@ -69,6 +69,6 @@ public final class Constants
     public static final double ELEVATOR_CLEAR_ALGAE_L3 = 72.5; //set me!
   }
   public static final class DeepClimbConstants {
-    public static final double DEEP_CLIMB_PUSH_INTERVAL = 3;//set me!
+    public static final double DEEP_CLIMB_PUSH_INTERVAL = 1;//set me!
   }
 }

@@ -34,8 +34,10 @@ public class KelplerCommands {
         () -> Robot.coralSubsystem.setCoralAngle(Constants.CoralConstants.CORAL_SHOOT_ANGLE), Robot.coralSubsystem);
 
     //coral shooter commands
-    public static final Command shootCoral = new RunCommand(()-> Robot.coralSubsystem.runRoller(0.3,0), Robot.coralSubsystem);
-    public static final Command recieveCoral = new RunCommand(()-> Robot.coralSubsystem.runRoller(0,0.3), Robot.coralSubsystem);
+    public static final Command shootCoral = new InstantCommand(()-> Robot.coralSubsystem.runRoller(0.3,0), Robot.coralSubsystem);
+    public static final Command recieveCoral = new InstantCommand(()-> Robot.coralSubsystem.runRoller(0,0.3), Robot.coralSubsystem);
+    public static final Command stopRollers = new InstantCommand(()-> Robot.coralSubsystem.runRoller(0,0), Robot.coralSubsystem);
+
 
     //to create a command group:
     public static final Command scoreLevelFour = new SequentialCommandGroup(

@@ -28,7 +28,7 @@ public class CoralSubsystem extends SubsystemBase {
 
   // Creating motor objects
   private final TalonFX angleMotor = new TalonFX(45);
-  private final SparkMax coralShooter = new SparkMax(27, MotorType.kBrushless);
+  private final SparkMax coralShooter = new SparkMax(44, MotorType.kBrushless);
 
   // Create position torque and position voltage objects
   private PositionVoltage angleMotor_positionVoltage = new PositionVoltage(0);

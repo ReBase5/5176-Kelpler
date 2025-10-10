@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //IO means Input/Output
 public class IO {
     //create xbox controller objects
-    
+
     // public XboxController driverXbox = new XboxController(0); add back????
 
     public XboxController operatorXbox = new XboxController(1);
@@ -19,7 +19,9 @@ public class IO {
     // POV is the D-Pad 0 is right, 90 is up, 180 is left, 270 is down
     Trigger shootButton = new Trigger(() -> operatorXbox.getRightTriggerAxis() > 0.9);//XboxControl..........Right Trigger
     Trigger recieveButton = new Trigger(() -> operatorXbox.getLeftTriggerAxis() > 0.9); //XboxControl........Left Trigger
-    
+    //Trigger stopRollTrigger = new Trigger(() -> operatorXbox.getLeftTriggerAxis() < 0.9 && operatorXbox.getRightTriggerAxis() > 0.9); //XboxControl........Left Trigger
+
+
     //JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl.......X
     JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 3);//XboxControl.....Y
     JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 2);//XboxControl........B
@@ -40,9 +42,11 @@ public class IO {
         // buttons to run shoot and receive rollers
         shootButton.onTrue(KelplerCommands.shootCoral);
         recieveButton.onTrue(KelplerCommands.recieveCoral);
+        shootButton.onFalse(KelplerCommands.stopRollers);
+        recieveButton.onFalse(KelplerCommands.stopRollers);
 
         // buttons to run elevator height
-        elevatorHighButton.onTrue(KelplerCommands.setElevatorHighGoal);
+        //elevatorHighButton.onTrue(KelplerCommands.setElevatorHighGoal);
         elevatorMediumButton.onTrue(KelplerCommands.setElevatorMidGoal);
         elevatorLowButton.onTrue(KelplerCommands.setElevatorLowGoal);
         elevatorZeroButton.onTrue(KelplerCommands.setElevatorZeroGoal);
