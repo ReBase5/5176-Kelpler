@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //IO means Input/Output
 public class IO {
     //create xbox controller objects
-    public XboxController driverXbox = new XboxController(0);
+    
+    // public XboxController driverXbox = new XboxController(0); add back????
+
     public XboxController operatorXbox = new XboxController(1);
 
     // Trigger objects created for axis and joystickbutton objects created for regualar buttons.
@@ -18,10 +20,10 @@ public class IO {
     Trigger shootButton = new Trigger(() -> operatorXbox.getRightTriggerAxis() > 0.9);//XboxControl..........Right Trigger
     Trigger recieveButton = new Trigger(() -> operatorXbox.getLeftTriggerAxis() > 0.9); //XboxControl........Left Trigger
     
-    JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl.......X
+    //JoystickButton elevatorHighButton = new JoystickButton(operatorXbox, 4);//XboxControl.......X
     JoystickButton elevatorMediumButton = new JoystickButton(operatorXbox, 3);//XboxControl.....Y
     JoystickButton elevatorLowButton = new JoystickButton(operatorXbox, 2);//XboxControl........B
-    JoystickButton elevatorZeroButton = new JoystickButton(operatorXbox, 1);//                  A
+    JoystickButton elevatorZeroButton = new JoystickButton(operatorXbox, 1);//XboxControl.......A
 
     JoystickButton angleShootButton = new JoystickButton(operatorXbox, 6);//XboxControl.........Right Bumper   
     JoystickButton angleReceiveButton = new JoystickButton(operatorXbox, 5);//XboxControl.......Left Bumper

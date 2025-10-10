@@ -49,12 +49,13 @@ public final class Constants
     public static final int CORAL_MOTOR_ID = 8;
     public static final int CORAL_MOTOR_CURRENT_LIMIT = 60;
     public static final double CORAL_MOTOR_VOLTAGE_COMP = 10;
-    public static final double CORAL_EJECT_VALUE_FAST = 0.44;
-    public static final double CORAL_EJECT_VALUE_SLOW = 0.22;
+    public static final double CORAL_EJECT_VALUE_FAST = 0.44; //check
+    public static final double CORAL_EJECT_VALUE_SLOW = 0.22; //check
+    public static final double CORAL_RECIEVE_VALUE_NORMAL = 0.10; //needs adjustment
 
-    public static final double CORAL_SHOOT_ANGLE = 0;  //set me!
-    public static final double CORAL_RECIEVE_ANGLE = 0;//set me!
-    public static final double CORAL_RECIEVE_ANGLE2 = 0; //set me!
+    public static final double CORAL_SHOOT_ANGLE = 0;  // RB
+    public static final double CORAL_RECIEVE_ANGLE = 3;// LB
+    public static final double CORAL_RECIEVE_ANGLE2 = 2; // DPAD L
   }
   public static final class ElevatorConstants {
     public static final double ELEVATOR_ZERO_GOAL = 0;
@@ -68,6 +69,6 @@ public final class Constants
     public static final double ELEVATOR_CLEAR_ALGAE_L3 = 72.5; //set me!
   }
   public static final class DeepClimbConstants {
-    public static final double DEEP_CLIMB_PUSH_INTERVAL = 2.5;//set me!
+    public static final double DEEP_CLIMB_PUSH_INTERVAL = 3;//set me!
   }
 }

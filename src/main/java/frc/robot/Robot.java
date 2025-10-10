@@ -22,12 +22,12 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private static Robot instance;
-
   public static DeepClimbSubsystem deepClimb = new DeepClimbSubsystem();
   public static ElevatorSubsystem elevator = new ElevatorSubsystem();
   public static CoralSubsystem coralSubsystem = new CoralSubsystem();
   public static IO io = new IO();
   
+  private RobotContainer m_robotContainer;
 
   private Timer disabledTimer;
 
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-
+    m_robotContainer = new RobotContainer();
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
@@ -126,6 +126,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit()
   {
+    m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
   }
@@ -135,6 +136,7 @@ public class Robot extends TimedRobot {
   {
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
+      m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
       disabledTimer.reset();
     }
@@ -146,6 +148,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit()
   {
+    m_robotContainer.setMotorBrake(true);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null)
     {

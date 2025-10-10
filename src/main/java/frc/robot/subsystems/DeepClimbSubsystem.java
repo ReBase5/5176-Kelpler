@@ -37,9 +37,9 @@ public class DeepClimbSubsystem extends SubsystemBase {
         ****** Still need to set PID values ******
         */
         TalonFXConfiguration deepClimbConfig = new TalonFXConfiguration();
-        deepClimbConfig.Slot0.kP = 0; // An erro of 1 rotation results in a 0 V output
+        deepClimbConfig.Slot0.kP = 0.9; // An erro of 1 rotation results in a 0 V output
         deepClimbConfig.Slot0.kI = 0; // No output for integrate error
-        deepClimbConfig.Slot0.kD = 0; // A velocity of 1 rotation results in a 0 V output
+        deepClimbConfig.Slot0.kD = 0.2; // A velocity of 1 rotation results in a 0 V output
         // Peak output of 8 V
         deepClimbConfig.Voltage.withPeakForwardVoltage(Volts.of(8))
         .withPeakReverseVoltage(Volts.of(-8));
@@ -73,7 +73,7 @@ public class DeepClimbSubsystem extends SubsystemBase {
     if(deepClimbRotations > 10){
       deepClimbRotations = 10;
     }
-    if(deepClimbRotations >= 0 && deepClimbRotations <= 10){
+    if(deepClimbRotations >= 0 && deepClimbRotations <= 5){
     deepClimbLeader.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations));
     deepClimbFollower.setControl(deepClimbPositionVoltage.withPosition(deepClimbRotations * -1.0));
     }

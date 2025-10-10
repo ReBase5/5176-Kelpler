@@ -59,7 +59,7 @@ public class CoralSubsystem extends SubsystemBase {
      ****** Still need to set PID values ******
     */
     TalonFXConfiguration angleConfig = new TalonFXConfiguration();
-    angleConfig.Slot0.kP = 1; // An erro of 1 rotation results in a 0 V output
+    angleConfig.Slot0.kP = 0.5; // An erro of 1 rotation results in a 0 V output
     angleConfig.Slot0.kI = 0; // No output for integrate error
     angleConfig.Slot0.kD = 0.1; // A velocity of 1 rotation results in a 0 V output
     // Peak output of 8 V
@@ -89,7 +89,7 @@ public class CoralSubsystem extends SubsystemBase {
     this.coralAngle = coralAngle;
     
     // change motor position to the correct angle(while the button is being pressed down)
-    angleMotor_positionVoltage.withPosition(coralAngle);
+    angleMotor.setControl(angleMotor_positionVoltage.withPosition(coralAngle));
   }
   
   public double getCoralAngle() {
